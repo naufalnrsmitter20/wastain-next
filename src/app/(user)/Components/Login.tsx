@@ -56,17 +56,17 @@ export default function Login() {
           <div className="text-center text-[14px] font-medium mt-[5px] ">
             <p>Lupa kata sandi anda?</p>
           </div>
-          <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[15px]">
+          <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[20px]">
             <div className="bg-primary-black border h-1 w-[200px]"></div>
             <p className="font-bold text-[12px] uppercase">atau</p>
             <div className="bg-primary-black border h-1 w-[200px]"></div>
           </div>
-          <div>
+          <div className="flex flex-col">
             <button
               className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
               type="submit"
             >
-              Login dengan google
+              Register
             </button>
           </div>
         </div>
