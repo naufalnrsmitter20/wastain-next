@@ -54,11 +54,9 @@ export default function Register() {
             </button>
           </form>
           <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[20px]">
-            <div className="bg-primary-black border h-1 w-[90px]"></div>
-            <p className="font-bold text-[12px] uppercase">
-              Already have an account
-            </p>
-            <div className="bg-primary-black border h-1 w-[90px]"></div>
+            <div className="bg-primary-black border h-1 w-[99px]"></div>
+            <p className="font-medium text-[12px]">Already have an account?</p>
+            <div className="bg-primary-black border h-1 w-[99px]"></div>
           </div>
           <div className="flex flex-col">
             <button
