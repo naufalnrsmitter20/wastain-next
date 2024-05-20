@@ -50,11 +50,11 @@ export default function Login() {
               className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
               type="submit"
             >
-              Login dengan google
+              Login with google
             </button>
           </form>
           <div className="text-center text-[14px] font-medium mt-[5px] ">
-            <p>Lupa kata sandi anda?</p>
+            <p>Forgot your password?</p>
           </div>
           <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[20px]">
             <div className="bg-primary-black border h-1 w-[200px]"></div>
