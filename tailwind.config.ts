@@ -12,7 +12,9 @@ const config: Config = {
       },
       colors: {
         "primary-green": "#4F6F52",
-
+        "gray-1": "#BFC9D9",
+        "gray-2": "#8D96AA",
+        "gray-3": "#6D7588",
       },
     },
   },
