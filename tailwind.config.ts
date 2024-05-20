@@ -12,6 +12,7 @@ const config: Config = {
       },
       colors: {
         "primary-green": "#4F6F52",
+
       },
     },
   },
