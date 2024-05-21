@@ -1,18 +1,17 @@
+"use client";
 import React from "react";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
+  const router = useRouter();
   return (
     <React.Fragment>
       <div className="my-[100px] mx-auto">
         <div className="text-center text-primary-black">
-          <h1 className="text-[64px] font-bold text-center mb-[20px]">
-            Buat Akun
-          </h1>
+          <h1 className="text-[64px] font-bold text-center mb-[20px]">Buat Akun</h1>
           <p className="text-[16px] mx-auto max-w-[500px] mb-[42px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-            tenetur alias reprehenderit soluta, odio vitae architecto rem
-            consequuntur optio culpa. Modi culpa incidunt.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste tenetur alias reprehenderit soluta, odio vitae architecto rem consequuntur optio culpa. Modi culpa incidunt.
           </p>
         </div>
         <div className="max-w-sm mx-auto text-primary-black">
@@ -21,35 +20,18 @@ export default function Register() {
               <div className="mb-2 block">
                 <Label htmlFor="email1" value="Your email" />
               </div>
-              <TextInput
-                id="email1"
-                type="email"
-                placeholder="Email"
-                required
-              />
+              <TextInput id="email1" type="email" placeholder="Email" required />
             </div>
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="password1" value="Your password" />
               </div>
-              <TextInput
-                id="password1"
-                type="password"
-                required
-                placeholder="Kata Sandi"
-                className="mb-[16px]"
-              />
+              <TextInput id="password1" type="password" required placeholder="Kata Sandi" className="mb-[16px]" />
             </div>
-            <button
-              className="bg-primary-green text-[16px] transition-all duration-200 hover:bg-dark-green text-white font-bold uppercase py-[13px] rounded-[10px]"
-              type="submit"
-            >
+            <button className="bg-primary-green text-[16px] transition-all duration-200 hover:bg-dark-green text-white font-bold uppercase py-[13px] rounded-[10px]" type="submit">
               Register
             </button>
-            <button
-              className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
-              type="submit"
-            >
+            <button className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]" type="submit">
               Register with google
             </button>
           </form>
@@ -60,6 +42,7 @@ export default function Register() {
           </div>
           <div className="flex flex-col">
             <button
+              onClick={() => router.push("/login")}
               className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
               type="submit"
             >
