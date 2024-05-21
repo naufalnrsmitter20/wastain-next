@@ -2,6 +2,7 @@
 import React from "react";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
+import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
 
 export default function Register() {
   const router = useRouter();
@@ -28,12 +29,8 @@ export default function Register() {
               </div>
               <TextInput id="password1" type="password" required placeholder="Kata Sandi" className="mb-[16px]" />
             </div>
-            <button className="bg-primary-green text-[16px] transition-all duration-200 hover:bg-dark-green text-white font-bold uppercase py-[13px] rounded-[10px]" type="submit">
-              Register
-            </button>
-            <button className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]" type="submit">
-              Register with google
-            </button>
+            <PrimaryButton type="submit">Register</PrimaryButton>
+            <SecondaryButton type="submit">Register with google</SecondaryButton>
           </form>
           <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[20px]">
             <div className="bg-primary-black border h-1 w-[99px]"></div>
@@ -41,13 +38,9 @@ export default function Register() {
             <div className="bg-primary-black border h-1 w-[99px]"></div>
           </div>
           <div className="flex flex-col">
-            <button
-              onClick={() => router.push("/login")}
-              className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
-              type="submit"
-            >
+            <SecondaryButton onClick={() => router.push("/login")} type="submit">
               Login
-            </button>
+            </SecondaryButton>
           </div>
         </div>
       </div>

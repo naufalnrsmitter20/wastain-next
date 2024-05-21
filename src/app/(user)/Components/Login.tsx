@@ -2,6 +2,7 @@
 import React from "react";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
+import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
 
 export default function Login() {
   const router = useRouter();
@@ -28,12 +29,8 @@ export default function Login() {
               </div>
               <TextInput id="password1" type="password" required placeholder="Kata Sandi" className="mb-[16px]" />
             </div>
-            <button className="bg-primary-green text-[16px] transition-all duration-200 hover:bg-dark-green text-white font-bold uppercase py-[13px] rounded-[10px]" type="submit">
-              Login
-            </button>
-            <button className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]" type="submit">
-              Login with google
-            </button>
+            <PrimaryButton type="submit">Login</PrimaryButton>
+            <SecondaryButton type="button">Login with google</SecondaryButton>
           </form>
           <div className="text-center text-[14px] font-medium mt-[5px] ">
             <p>Forgot your password?</p>
@@ -44,13 +41,9 @@ export default function Login() {
             <div className="bg-primary-black border h-1 w-[200px]"></div>
           </div>
           <div className="flex flex-col">
-            <button
-              onClick={() => router.push("/register")}
-              className=" text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
-              type="submit"
-            >
+            <PrimaryButton onClick={() => router.push("/register")} type="button">
               Register
-            </button>
+            </PrimaryButton>
           </div>
         </div>
       </div>
