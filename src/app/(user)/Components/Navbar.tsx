@@ -11,10 +11,12 @@ export default function Navbars() {
   const router = useRouter();
   return (
     <React.Fragment>
-      <Navbar fluid className="mx-8">
-        <Navbar.Brand href="#">
-          <Image src={logo} width={160} alt="wastain logo" />
-        </Navbar.Brand>
+      <Navbar fluid className="shadow-md mt-[15px] w-full h-[75px]">
+        <div className="mx-8">
+          <Navbar.Brand href="#">
+            <Image src={logo} width={160} alt="wastain logo" />
+          </Navbar.Brand>
+        </div>
         <form className="md:flex items-center hidden md:max-w-xs lg:max-w-lg xl:max-w-3xl w-full">
           <label htmlFor="simple-search" className="sr-only">
             Search
@@ -34,18 +36,24 @@ export default function Navbars() {
           <button className="hidden" type="submit"></button>
         </form>
         <section className="flex justify-between gap-x-4">
-          <button onClick={() => router.push("/")} className="place-items-center flex">
+          <button
+            onClick={() => router.push("/")}
+            className="place-items-center flex"
+          >
             <Cart />
             <p className="font-medium leading-relaxed text-[16px]">Cart</p>
           </button>
           <div className="flex gap-x-2">
             <button
               onClick={() => router.push("/login")}
-              className="uppercase font-bold text-[10px] px-2 py-1.5 text-primary-green border-primary-green bg-white hover:text-white hover:bg-primary-green border rounded-md transition-all duration-200"
+              className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-primary-green border-primary-green bg-white hover:text-white hover:bg-dark-green border rounded-md transition-all duration-200"
             >
               masuk
             </button>
-            <button onClick={() => router.push("/register")} className="uppercase font-bold text-[10px] px-2 py-1.5 text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-[#1A4D2E]">
+            <button
+              onClick={() => router.push("/register")}
+              className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green"
+            >
               daftar
             </button>
           </div>
