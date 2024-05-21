@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
+import { InputFields } from "./utilities/InputField";
 
 export default function Login() {
   const router = useRouter();
@@ -18,10 +19,10 @@ export default function Login() {
         <div className="max-w-sm mx-auto text-primary-black">
           <form className="flex flex-col gap-4">
             <div>
-              <input id="email1" type="email" placeholder="Email" required className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green" />
+              <InputFields id="email1" name="email1" type="email" placeholder="Email" required={true} />
             </div>
             <div>
-              <input id="password1" type="password" required placeholder="Kata Sandi" className="mb-[15px] rounded-[10px] w-full bg-gray-4 border-none py-[10px] px-[20px] focus:ring-primary-green" />
+              <InputFields id="password1" type="password" name="password1" placeholder="Kata Sandi" className="mb-[15px]" required={true} />
             </div>
             <PrimaryButton type="submit">Masuk</PrimaryButton>
             <SecondaryButton type="button">Masuk Dengan Google</SecondaryButton>
