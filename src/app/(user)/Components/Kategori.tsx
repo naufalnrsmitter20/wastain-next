@@ -17,50 +17,64 @@ export default function Kategori() {
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
                 <Image src={Kemeja} width={40} alt="icon kemeja" />
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">Kemeja</p>
-                  <p className="font-medium text-[14px]">Formal</p>
+                  <p className="font-bold text-[16px]">
+                    Kemeja{" "}
+                    <span className="text-[14px] font-medium">Formal</span>
+                  </p>
                 </div>
               </div>
             </div>
