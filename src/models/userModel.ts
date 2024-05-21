@@ -42,9 +42,6 @@ const userSchema = new Schema<IUser>({
   },
   alamat: {
     type: String,
-    required: function () {
-      return this.role === "Customer";
-    },
   },
   clothes_booked: {
     type: [clothesBookedSchema],
