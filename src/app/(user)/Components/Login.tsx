@@ -18,16 +18,10 @@ export default function Login() {
         <div className="max-w-sm mx-auto text-primary-black">
           <form className="flex flex-col gap-4">
             <div>
-              <div className="mb-2 block">
-                <Label htmlFor="email1" value="Your email" />
-              </div>
-              <TextInput id="email1" type="email" placeholder="Email" required />
+              <input id="email1" type="email" placeholder="Email" required className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green" />
             </div>
             <div>
-              <div className="mb-2 block">
-                <Label htmlFor="password1" value="Your password" />
-              </div>
-              <TextInput id="password1" type="password" required placeholder="Kata Sandi" className="mb-[16px]" />
+              <input id="password1" type="password" required placeholder="Kata Sandi" className="mb-[15px] rounded-[10px] w-full bg-gray-4 border-none py-[10px] px-[20px] focus:ring-primary-green" />
             </div>
             <PrimaryButton type="submit">Masuk</PrimaryButton>
             <SecondaryButton type="button">Masuk Dengan Google</SecondaryButton>
