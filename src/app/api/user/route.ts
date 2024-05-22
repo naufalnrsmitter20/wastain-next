@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     await connect();
-    const patients = await User.find();
-    return NextResponse.json({ patients });
+    const customer = await User.find();
+    return NextResponse.json({ customer });
   } catch (error) {
-    console.error("Error fetching patients:", error);
-    return NextResponse.json({ message: "New Patient Failed to Created" }, { status: 201 });
+    console.error("Error fetching customer:", error);
+    return NextResponse.json({ message: "New data Failed to Created" }, { status: 201 });
   }
 }
 
@@ -23,7 +23,7 @@ export async function POST(request: any): Promise<NextResponse> {
     clothes_booked,
     clothes,
   });
-  return NextResponse.json({ message: "New Patient Success to Created" }, { status: 201 });
+  return NextResponse.json({ message: "New data Success to Created" }, { status: 201 });
 }
 
 export async function DELETE(request: any): Promise<NextResponse> {
@@ -33,5 +33,5 @@ export async function DELETE(request: any): Promise<NextResponse> {
   }
   await connect();
   await User.findByIdAndDelete(id);
-  return NextResponse.json({ message: "Data patient deleted!" }, { status: 200 });
+  return NextResponse.json({ message: "Data data deleted!" }, { status: 200 });
 }
