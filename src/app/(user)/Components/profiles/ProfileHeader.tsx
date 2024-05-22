@@ -1,10 +1,36 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import profileIcon from "@/public/user-logo-profile.png";
 import Image from "next/image";
 import { PrimaryButton } from "../utilities/Buttons";
 import Location from "@/app/Icons/Location";
+import { useSession } from "next-auth/react";
+
+interface IUser {
+  username: string;
+  email: string;
+}
 
 function ProfileHeader() {
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState<IUser | null>(null);
+  useEffect(() => {
+    if (session) {
+      try {
+        const fetchUsers = async () => {
+          const res = await fetch("/api/auth/usersauth");
+          const data = await res.json();
+          const customer = data.user || null;
+          const logInUser = customer.find((user: any) => user.email === session?.user?.email);
+          setUser(logInUser || null);
+        };
+        fetchUsers();
+      } catch (error) {
+        console.log("Error fetching users", error);
+      }
+    }
+  }, [session]);
+
   return (
     <React.Fragment>
       <div className="flex justify-start gap-x-28 mx-auto max-w-4xl mt-16">
@@ -16,11 +42,14 @@ function ProfileHeader() {
         </aside>
         <aside className="mt-4">
           <h4 className="font-bold text-[24px] tracking-wide">Profile</h4>
-          <div className="mt-10">
-            <p className="font-medium text-[16px] leading-loose">Nama : </p>
-            <p className="font-medium text-[16px] leading-loose">Alamat : </p>
-            <p className="font-medium text-[16px] leading-loose">Email : </p>
-          </div>
+          {user && (
+            <div className="mt-10">
+              <p className="font-medium text-[16px] leading-loose">Nama : {user.username}</p>
+              <p className="font-medium text-[16px] leading-loose">Alamat : </p>
+              <p className="font-medium text-[16px] leading-loose">Email : {user.email}</p>
+            </div>
+          )}
+
           <p className="font-bold text-[16px] tracking-wide mt-16">Selesaikan Pembayaran</p>
           <main className="grid grid-cols-2 gap-2 max-w-full">
             <div className="rounded-md shadow-sm shadow-gray-3 p-4 max-w-sm w-full mt-4">

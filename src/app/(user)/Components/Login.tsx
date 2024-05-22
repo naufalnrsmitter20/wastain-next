@@ -1,12 +1,53 @@
 "use client";
-import React from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
 import { InputFields } from "./utilities/InputField";
+import axios from "axios";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const [error, setError] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = userInfo;
+  const handleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    const { name, value } = target;
+
+    setUserInfo({ ...userInfo, [name]: value });
+  };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const user = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+    };
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: user.email,
+        password: user.password,
+        callbackUrl: "/",
+      });
+      if (res?.status === 401) {
+        console.log(res.error);
+        setError(`${res.error}`);
+      }
+      if (res?.ok) {
+        [router.push("/profile")];
+      }
+    } catch (error) {
+      console.log("Error: " + (error as Error).message);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="my-[100px] mx-auto">
@@ -17,14 +58,15 @@ export default function Login() {
           </p>
         </div>
         <div className="max-w-sm mx-auto text-primary-black">
-          <form className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <InputFields id="email1" name="email1" type="email" placeholder="Email" required={true} />
+              <InputFields value={email} onChange={handleChange} id="email1" name="email" type="email" placeholder="Email" required={true} />
             </div>
             <div>
-              <InputFields id="password1" type="password" name="password1" placeholder="Kata Sandi" className="mb-[15px]" required={true} />
+              <InputFields value={password} onChange={handleChange} id="password1" type="password" name="password" placeholder="Kata Sandi" className="mb-[15px]" required={true} />
             </div>
             <PrimaryButton type="submit">Masuk</PrimaryButton>
+            {error && <p className="text-sm text-red-600 font-medium text-center">{error}</p>}
             <SecondaryButton type="button">Masuk Dengan Google</SecondaryButton>
           </form>
           <div className="text-center text-[14px] font-medium mt-[5px] ">

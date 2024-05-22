@@ -1,19 +1,45 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import Image from "next/image";
-import logo from "@/../public/logo-wastain.png";
+import logo from "@/public/logo-wastain.png";
 import Search from "@/app/Icons/Search";
 import Cart from "@/app/Icons/Cart";
 import { useRouter } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
+import userProfile from "@/public/navProfile.png";
+
+interface IUser {
+  username: string;
+  email: string;
+}
 
 export default function Navbars() {
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState<IUser | null>(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (session) {
+        try {
+          const res = await fetch("/api/auth/usersauth");
+          const data = await res.json();
+          const customer = data.user || [];
+          const logInUser = customer.find((user: any) => user.email === session.user?.email);
+          setUser(logInUser || null);
+        } catch (error) {
+          console.log("Error fetching user : ", error);
+        }
+      }
+    };
+    fetchUser();
+  }, [session]);
+
   return (
     <React.Fragment>
       <Navbar fluid className="shadow-md mt-[15px] w-full h-[75px]">
         <div className="mx-8">
-          <Navbar.Brand href="#">
+          <Navbar.Brand href="/">
             <Image src={logo} width={160} alt="wastain logo" />
           </Navbar.Brand>
         </div>
@@ -35,39 +61,44 @@ export default function Navbars() {
           </div>
           <button className="hidden" type="submit"></button>
         </form>
-        <section className="flex justify-between gap-x-4">
-          <button
-            onClick={() => router.push("/")}
-            className="place-items-center flex"
-          >
-            <Cart />
-            <p className="font-medium leading-relaxed text-[16px]">Cart</p>
-          </button>
-          <div className="flex gap-x-2">
-            <button
-              onClick={() => router.push("/login")}
-              className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-primary-green border-primary-green bg-white hover:text-white hover:bg-dark-green border rounded-md transition-all duration-200"
-            >
-              masuk
+        {status === "unauthenticated" ? (
+          <section className="flex justify-between gap-x-4">
+            <button onClick={() => router.push("/cart")} className="place-items-center flex">
+              <Cart />
+              <p className="font-medium leading-relaxed text-[16px]">Cart</p>
             </button>
-            <button
-              onClick={() => router.push("/register")}
-              className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green"
-            >
-              daftar
+            <div className="flex gap-x-2">
+              <button
+                onClick={() => signIn()}
+                className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-primary-green border-primary-green bg-white hover:text-white hover:bg-dark-green border rounded-md transition-all duration-200"
+              >
+                masuk
+              </button>
+              <button onClick={() => router.push("/register")} className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green">
+                daftar
+              </button>
+            </div>
+          </section>
+        ) : (
+          <div className="flex md:order-2 items-center">
+            <button onClick={() => router.push("/cart")} className="place-items-center flex mr-10">
+              <Cart />
+              <p className="font-medium leading-relaxed text-[16px]">Cart</p>
             </button>
+            {user && <h5 className="mr-6 text-[16px] font-bold">{user.username}</h5>}
+            <Dropdown arrowIcon={false} inline label={<Image src={userProfile} alt="profile" width={40} />}>
+              {user && (
+                <Dropdown.Header>
+                  <span className="block text-sm">{user.username}</span>
+                  <span className="block truncate mt-2 text-sm font-medium">{user.email}</span>
+                </Dropdown.Header>
+              )}
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={() => router.push("/profile")}>Profile</Dropdown.Item>
+              <Dropdown.Item onClick={() => signOut()}>Log Out</Dropdown.Item>
+            </Dropdown>
           </div>
-        </section>
-        {/* <div className="flex md:order-2">
-          <Dropdown arrowIcon={false} inline label={<Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}>
-            <Dropdown.Header>
-              <span className="block text-sm">Bonnie Green</span>
-              <span className="block truncate text-sm font-medium">name@flowbite.com</span>
-            </Dropdown.Header>
-            <Dropdown.Divider />
-            <Dropdown.Item>Sign out</Dropdown.Item>
-          </Dropdown>
-        </div> */}
+        )}
       </Navbar>
     </React.Fragment>
   );
