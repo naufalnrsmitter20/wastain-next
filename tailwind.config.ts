@@ -23,6 +23,7 @@ const config: Config = {
         "gray-3": "#6D7588",
         "gray-4": "#ECF1F4",
         "dark-green": "#1A4D2E",
+        "light-green": "#00AA5B",
         "primary-black": "#252525",
       },
     },
