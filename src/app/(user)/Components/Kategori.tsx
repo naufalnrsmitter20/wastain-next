@@ -15,12 +15,16 @@ export default function Kategori() {
             </h1>
             <div className="grid grid-cols-7 gap-x-0">
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
-                <Image src={Kemeja} width={40} alt="icon kemeja" />
+                <a href="#">
+                  <Image src={Kemeja} width={40} alt="icon kemeja" />
+                </a>
                 <div className="text-center mt-[10px]">
-                  <p className="font-bold text-[16px]">
-                    Kemeja{" "}
-                    <span className="text-[14px] font-medium">Formal</span>
-                  </p>
+                  <a href="#">
+                    <p className="font-bold text-[16px]">
+                      Kemeja{" "}
+                      <span className="text-[14px] font-medium">Formal</span>
+                    </p>
+                  </a>
                 </div>
               </div>
               <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
@@ -81,31 +85,39 @@ export default function Kategori() {
             <div className="mt-[16px] pb-[30px]">
               <div className="grid grid-cols-2">
                 <div className="flex max-w-[550px] p-[12px] bg-white rounded-[10px] shadow-md">
-                  <Image
-                    src={Reuse}
-                    width={90}
-                    alt="icon reuse"
-                    className="mr-[16px]"
-                  />
-                  <div className="grid grid-cols-1">
-                    <p className="font-bold text-[16px] ">Reuse</p>
-                    <p className="text-gray-3">
-                      Pakaian Bekas Dengan Kondisi Yang Masih Bagus
-                    </p>
+                  <a href="#">
+                    <Image
+                      src={Reuse}
+                      width={90}
+                      alt="icon reuse"
+                      className="mr-[16px]"
+                    />
+                  </a>
+                  <div className="mt-5">
+                    <a href="#">
+                      <p className="font-bold text-[16px]">Reuse</p>
+                      <p className="text-gray-3">
+                        Pakaian Bekas Dengan Kondisi Yang Masih Bagus
+                      </p>
+                    </a>
                   </div>
                 </div>
                 <div className="flex max-w-[550px] p-[12px] bg-white rounded-[10px] shadow-md">
-                  <Image
-                    src={Recycle}
-                    width={90}
-                    alt="icon reuse"
-                    className="mr-[16px]"
-                  />
-                  <div className="grid grid-cols-1">
-                    <p className="font-bold text-[16px]">Recycle</p>
-                    <p className="text-gray-3">
-                      Pakaian Baru Yang Dibuat Oleh Bahan Daur Ulang{" "}
-                    </p>
+                  <a href="#">
+                    <Image
+                      src={Recycle}
+                      width={90}
+                      alt="icon reuse"
+                      className="mr-[16px]"
+                    />
+                  </a>
+                  <div className="mt-5">
+                    <a href="#">
+                      <p className="font-bold text-[16px]">Recycle</p>
+                      <p className="text-gray-3">
+                        Pakaian Baru Yang Dibuat Oleh Bahan Daur Ulang{" "}
+                      </p>
+                    </a>
                   </div>
                 </div>
               </div>
