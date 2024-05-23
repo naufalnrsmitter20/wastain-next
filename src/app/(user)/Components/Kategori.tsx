@@ -87,8 +87,8 @@ export default function Kategori() {
                     alt="icon reuse"
                     className="mr-[16px]"
                   />
-                  <div className="grid grid-cols-1">
-                    <p className="font-bold text-[16px] ">Reuse</p>
+                  <div className="mt-5">
+                    <p className="font-bold text-[16px]">Reuse</p>
                     <p className="text-gray-3">
                       Pakaian Bekas Dengan Kondisi Yang Masih Bagus
                     </p>
@@ -101,7 +101,7 @@ export default function Kategori() {
                     alt="icon reuse"
                     className="mr-[16px]"
                   />
-                  <div className="grid grid-cols-1">
+                  <div className="mt-5">
                     <p className="font-bold text-[16px]">Recycle</p>
                     <p className="text-gray-3">
                       Pakaian Baru Yang Dibuat Oleh Bahan Daur Ulang{" "}

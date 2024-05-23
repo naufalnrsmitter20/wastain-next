@@ -60,9 +60,13 @@ export default function Register() {
     <React.Fragment>
       <div className="my-[100px] mx-auto">
         <div className="text-center text-primary-black">
-          <h1 className="text-[64px] font-bold text-center mb-[20px]">Buat Akun</h1>
+          <h1 className="text-[64px] font-bold text-center mb-[20px]">
+            Buat Akun
+          </h1>
           <p className="text-[16px] mx-auto max-w-[500px] mb-[42px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste tenetur alias reprehenderit soluta, odio vitae architecto rem consequuntur optio culpa. Modi culpa incidunt.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
+            tenetur alias reprehenderit soluta, odio vitae architecto rem
+            consequuntur optio culpa. Modi culpa incidunt.
           </p>
         </div>
         <div className="max-w-sm mx-auto text-primary-black">
@@ -79,7 +83,15 @@ export default function Register() {
               />
             </div>
             <div>
-              <InputFields id="email1" name="email" type="email" value={email} onChange={handleChange} placeholder="Email" className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green" />
+              <InputFields
+                id="email1"
+                name="email"
+                type="email"
+                value={email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green"
+              />
             </div>
             <div>
               <InputFields
@@ -93,13 +105,19 @@ export default function Register() {
               />
             </div>
             <PrimaryButton type="submit">Daftar</PrimaryButton>
-            {error && <p className="text-sm text-red-600 font-medium text-center">{error}</p>}
-            <SecondaryButton type="button">Daftar dengan google</SecondaryButton>
+            {error && (
+              <p className="text-sm text-red-600 font-medium text-center">
+                {error}
+              </p>
+            )}
+            <SecondaryButton type="button">
+              Daftar dengan google
+            </SecondaryButton>
           </form>
           <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[20px]">
-            <div className="bg-primary-black border h-1 w-[110px]"></div>
+            <div className="bg-primary-black border h-0.5 w-[110px]"></div>
             <p className="font-medium text-[12px]">Sudah memiliki akun?</p>
-            <div className="bg-primary-black border h-1 w-[110px]"></div>
+            <div className="bg-primary-black border h-0.5 w-[110px]"></div>
           </div>
           <div className="flex flex-col">
             <SecondaryButton onClick={() => signIn()} type="button">
