@@ -18,17 +18,12 @@ export const authOption: NextAuthOptions = {
       },
       async authorize(credentials) {
         const { email } = credentials as {
-          username: string;
           email: string;
           password: string;
-          role: "Customer" | "Seller" | "Admin";
         };
         await connect();
         const user = await User.findOne({ email });
         if (!user) {
-          throw new Error("Email/Password salah!");
-        }
-        if (user.password !== user.password) {
           throw new Error("Email/Password salah!");
         }
         return user.toObject();
@@ -38,7 +33,7 @@ export const authOption: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, account, user }: any) {
-      if (account.provider === "credentials") {
+      if (account?.provider === "credentials") {
         token.username = user.username;
         token.email = user.email;
         token.role = user.role;
@@ -46,16 +41,19 @@ export const authOption: NextAuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-      if ("email" in token) {
-        session.user.email = token.email;
-      }
       if ("username" in token) {
         session.user.username = token.username;
+      }
+      if ("email" in token) {
+        session.user.email = token.email;
       }
       if ("role" in token) {
         session.user.role = token.role;
       }
       return session;
     },
+  },
+  pages: {
+    signIn: "/login",
   },
 };
