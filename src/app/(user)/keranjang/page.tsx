@@ -6,7 +6,6 @@ import Cart from "../Components/Cart";
 export default function Keranjang() {
   return (
     <>
-      <Navbars />
       <Cart />
     </>
   );
