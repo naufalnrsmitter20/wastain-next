@@ -11,7 +11,7 @@ export default function Diskon() {
           <p className="font-bold text-[16px] text-light-green">Lihat semua</p>
         </div>
         <div className="grid grid-cols-6 gap-x-[16px] mb-[30px]">
-          <div className="max-w-sm bg-white rounded-[10px] shadow-md dark:bg-gray-800 dark:border-gray-700">
+          <div className="max-w-sm bg-white rounded-[10px] shadow-md">
             <a href="#">
               <Image
                 src={Model}
