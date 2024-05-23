@@ -6,7 +6,7 @@ export default function BanyakDicari() {
   return (
     <React.Fragment>
       <div className="mx-40">
-        <div className="flex justify-between mb-[56px]">
+        <div className="flex justify-between mb-[16px]">
           <h1 className="font-bold text-[24px]">Lagi banyak dicari, nih</h1>
           <p className="font-bold text-[16px] text-light-green">Lihat Semua</p>
         </div>
@@ -112,7 +112,7 @@ export default function BanyakDicari() {
             </div>
           </div>
         </div>
-        <div className="border bg-gray-1 w-full h-0.5 mb-[24px]"></div>
+        <div className="border bg-gray-1 w-full h-[1px] mb-[24px]"></div>
       </div>
     </React.Fragment>
   );
