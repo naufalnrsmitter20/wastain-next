@@ -50,7 +50,7 @@ export default function Login() {
 
   return (
     <React.Fragment>
-      <div className="my-[100px] mx-auto">
+      <div className="mb-[80px] mt-[60px] mx-auto">
         <div className="text-center text-primary-black">
           <h1 className="text-[64px] font-bold text-center mb-[20px]">
             Selamat Datang

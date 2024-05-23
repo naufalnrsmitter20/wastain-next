@@ -6,7 +6,6 @@ import HistoriBelanja from "../Components/profiles/HistoriBelanja";
 export default function profilePage() {
   return (
     <>
-      <Navbars />
       <ProfileHeader />
       <HistoriBelanja />
     </>
