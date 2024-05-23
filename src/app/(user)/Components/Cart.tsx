@@ -1,224 +1,134 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Kemeja from "@/../public/Kemeja.png";
 import White from "@/../public/white.png";
 import AR from "@/../public/ArrowRight.png";
 import { InputFields } from "./utilities/InputField";
-import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
+import { PrimaryButton } from "./utilities/Buttons";
+import { useRouter } from "next/navigation";
+import useCartServices from "@/lib/hooks/useCartStore";
+import Link from "next/link";
 
 export default function Cart() {
+  const router = useRouter();
+  const { items, itemsPrice, decrease, increase } = useCartServices();
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <></>;
   return (
     <React.Fragment>
       <div className="mx-40 mt-[75px]">
         <div className="mb-[50px]">
-          <h1 className="text-primary-green font-bold text-[64px]">
-            Keranjang Belanja
-          </h1>
+          <h1 className="text-primary-green font-bold text-[64px]">Keranjang Belanja</h1>
         </div>
+        <Link href={"/homepage#products"} className="font-bold text-[16px] text-primary-black underline">
+          Kembali ke halaman produk
+        </Link>
         <div className="bg-white shadow w-full rounded-[10px] mb-[150px]">
           <div className="mx-[25px]">
-            <p className="py-[25px] font-bold text-[16px] text-light-green">
-              Pilih Produk
-            </p>
+            <p className="py-[25px] font-bold text-[16px] text-light-green">Pilih Produk</p>
             <div className="border bg-gray-1 w-full h-[1px] mb-[24px]"></div>
-            <div className="flex gap-x-10 pb-[30px]">
-              <div>
-                <input
-                  id="default-checkbox"
-                  type="checkbox"
-                  value=""
-                  className="w-[32px] h-[32px] text-primary-green bg-gray-4 border-gray-300 rounded-[8px] focus:ring-light-green"
-                />
-              </div>
-              <div>
-                <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
-                  <a href="#">
-                    <Image src={Kemeja} width={40} alt="icon kemeja" />
-                  </a>
-                  <div className="text-center mt-[10px]">
-                    <a href="#">
-                      <p className="font-bold text-[16px]">
-                        Kemeja{" "}
-                        <span className="text-[14px] font-medium">Formal</span>
-                      </p>
-                    </a>
+            {items.length === 0 ? (
+              <>
+                <p className="font-bold text-[24px] ml-16">
+                  Keranjang kosong!{" "}
+                  <Link href={"/homepage"} className="text-primary-green underline">
+                    Klik untuk pergi belanja
+                  </Link>
+                </p>
+              </>
+            ) : (
+              <>
+                {items.map((item) => (
+                  <div key={item.slug} className="flex gap-x-10 pb-[30px] justify-between">
+                    <div>
+                      <div className="max-w-[140px] p-[10px] bg-white rounded-[10px] border border-gray-200">
+                        <Link href={`/product/${item.slug}`}>
+                          <Image src={item.image} width={100} alt={item.nama_barang} />
+                        </Link>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="mt-8">
+                        <p className="font-bold text-[16px]">{item.nama_barang}</p>
+                        <p className="text-[14px] font-medium">Kategori: {item.kategori}</p>
+                        <p className="text-[14px] font-medium">Tipe: {item.tipe}</p>
+                      </div>
+                    </div>
+                    <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
+                    <div className="mt-11">
+                      <p className="text-[14px] font-medium">Harga Satuan</p>
+                      <p className="text-[16px] font-bold">Rp. {item.harga.toLocaleString("id-ID")}</p>
+                    </div>
+                    <div className="mt-12 ml-5">
+                      <p className="text-[14px] font-medium">dikirim dari Jakarta</p>
+                    </div>
+                    <div className="mx-3 mt-8">
+                      <p className="text-[16px] font-medium mb-2">Jumlah Produk</p>
+                      <button
+                        className="text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase px-2.5 py-0.5 rounded-[10px]"
+                        type="button"
+                        onClick={() => decrease(item)}
+                      >
+                        -
+                      </button>
+                      <span className="px-2">{item.qty}</span>
+                      <button
+                        className="text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase px-2.5 py-0.5 rounded-[10px]"
+                        type="button"
+                        onClick={() => increase(item)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
+                    <div className="mt-10 text-center">
+                      <p className="text-[16px] font-medium">Total Harga</p>
+                      <p className="text-[16px] font-bold">Rp. {(item.qty * item.harga).toLocaleString("id-ID")}</p>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div>
-                <div className="mt-8">
-                  <p className="font-bold text-[16px]">Kemeja Formal</p>
-                  <p className="text-[14px] font-medium">Warna: Putih</p>
-                  <p className="text-[14px] font-medium">Ukuran: XL</p>
-                </div>
-              </div>
-              <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
-              <div className="mt-11">
-                <p className="text-[14px] font-medium">Harga Satuan</p>
-                <p className="text-[16px] font-bold">Rp. 200.000</p>
-              </div>
-              <div className="mt-12 ml-5">
-                <p className="text-[14px] font-medium">dikirim dari Jakarta</p>
-              </div>
-              <div className="mx-3 mt-8">
-                <p className="text-[16px] font-medium">Jumlah Produk</p>
-              </div>
-              <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
-              <div className="mt-10 text-center">
-                <p className="text-[16px] font-medium">Total Harga</p>
-                <p className="text-[16px] font-bold">Rp. 400.000</p>
-              </div>
-            </div>
+                ))}
+              </>
+            )}
+
             <div className="border bg-gray-1 w-full h-[1px] mb-[24px]"></div>
-            <div className="flex gap-x-10 pb-[30px]">
-              <div>
-                <input
-                  id="default-checkbox"
-                  type="checkbox"
-                  value=""
-                  className="w-[32px] h-[32px] text-primary-green bg-gray-4 border-gray-300 rounded-[8px] focus:ring-light-green"
-                />
-              </div>
-              <div>
-                <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
-                  <a href="#">
-                    <Image src={Kemeja} width={40} alt="icon kemeja" />
-                  </a>
-                  <div className="text-center mt-[10px]">
-                    <a href="#">
-                      <p className="font-bold text-[16px]">
-                        Kemeja{" "}
-                        <span className="text-[14px] font-medium">Formal</span>
-                      </p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="mt-8">
-                  <p className="font-bold text-[16px]">Kemeja Formal</p>
-                  <p className="text-[14px] font-medium">Warna: Putih</p>
-                  <p className="text-[14px] font-medium">Ukuran: XL</p>
-                </div>
-              </div>
-              <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
-              <div className="mt-11">
-                <p className="text-[14px] font-medium">Harga Satuan</p>
-                <p className="text-[16px] font-bold">Rp. 200.000</p>
-              </div>
-              <div className="mt-12 ml-5">
-                <p className="text-[14px] font-medium">dikirim dari Jakarta</p>
-              </div>
-              <div className="mx-3 mt-8">
-                <p className="text-[16px] font-medium">Jumlah Produk</p>
-              </div>
-              <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
-              <div className="mt-10 text-center">
-                <p className="text-[16px] font-medium">Total Harga</p>
-                <p className="text-[16px] font-bold">Rp. 400.000</p>
-              </div>
-            </div>
-            <div className="border bg-gray-1 w-full h-[1px] mb-[24px]"></div>
-            <div className="flex gap-x-10 pb-[30px]">
-              <div>
-                <input
-                  id="default-checkbox"
-                  type="checkbox"
-                  value=""
-                  className="w-[32px] h-[32px] text-primary-green bg-gray-4 border-gray-300 rounded-[8px] focus:ring-light-green"
-                />
-              </div>
-              <div>
-                <div className="max-w-[140px] p-[20px] bg-white rounded-[10px] border border-gray-200">
-                  <a href="#">
-                    <Image src={Kemeja} width={40} alt="icon kemeja" />
-                  </a>
-                  <div className="text-center mt-[10px]">
-                    <a href="#">
-                      <p className="font-bold text-[16px]">
-                        Kemeja{" "}
-                        <span className="text-[14px] font-medium">Formal</span>
-                      </p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="mt-8">
-                  <p className="font-bold text-[16px]">Kemeja Formal</p>
-                  <p className="text-[14px] font-medium">Warna: Putih</p>
-                  <p className="text-[14px] font-medium">Ukuran: XL</p>
-                </div>
-              </div>
-              <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
-              <div className="mt-11">
-                <p className="text-[14px] font-medium">Harga Satuan</p>
-                <p className="text-[16px] font-bold">Rp. 200.000</p>
-              </div>
-              <div className="mt-12 ml-5">
-                <p className="text-[14px] font-medium">dikirim dari Jakarta</p>
-              </div>
-              <div className="mx-3 mt-8">
-                <p className="text-[16px] font-medium">Jumlah Produk</p>
-              </div>
-              <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
-              <div className="mt-10 text-center">
-                <p className="text-[16px] font-medium">Total Harga</p>
-                <p className="text-[16px] font-bold">Rp. 400.000</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <div className="w-full bg-white h-[150px] fixed bottom-0 left-0 border-t border-gray-4">
-        <div className="mx-[25px] mt-[10px]">
-          <h1 className="font-bold text-[24px] ">Total Produk(2)</h1>
-          <div className="flex gap-x-[20px]">
-            <div className="flex max-w-sm bg-white rounded-[8px] shadow-md">
-              <Image
-                src={White}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
+      {/* bar */}
+      <div className="w-full bg-white h-fit max-w-full mx-auto fixed bottom-0 left-0 border-t border-gray-1">
+        <div className="mt-[10px] mx-auto w-full">
+          <h1 className="font-bold text-[24px] ml-16">Total Produk({items.reduce((a, c) => a + c.qty, 0)})</h1>
+          <div className="flex gap-x-[20px] justify-between px-20 py-4 pb-6">
+            {/* <div className="flex max-w-sm bg-white rounded-[8px] shadow-md">
+              <Image src={White} width={100} alt="icon reuse" className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]" />
               <div className="mt-5 pr-4">
                 <p className="font-medium text-[16px]">Kemeja Formal</p>
                 <p className="text-gray-3 text-[14px]">227rb pencarian </p>
               </div>
             </div>
             <div className="flex max-w-sm bg-white rounded-[8px] shadow-md">
-              <Image
-                src={White}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
+              <Image src={White} width={100} alt="icon reuse" className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]" />
               <div className="mt-5 pr-4">
                 <p className="font-medium text-[16px]">Kemeja Formal</p>
                 <p className="text-gray-3 text-[14px]">227rb pencarian </p>
               </div>
-            </div>
+            </div> */}
             <div className="relative flex items-center justify-center w-[85px] bg-white rounded-[8px] shadow-md">
-              <Image
-                src={AR}
-                width={20}
-                alt="icon reuse"
-                className="rounded-bl-[10px] rounded-tl-[10px]"
-              />
+              <Image src={AR} width={20} alt="icon reuse" className="rounded-bl-[10px] rounded-tl-[10px]" />
             </div>
             <div className="w-[1px] h-[60px] bg-gray-1 border mt-4"></div>
             <div className="mt-5">
-              <InputFields
-                id="voucher"
-                type="text"
-                name="username"
-                placeholder="Pakai Voucher"
-                className="rounded-[10px] w-[350px] bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green"
-              />
+              <InputFields id="voucher" type="text" name="username" placeholder="Pakai Voucher" className="rounded-[10px] w-[350px] bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green" />
             </div>
             <div className="mt-3 ml-6">
               <p className="font-medium text-[14px]">Total Harga</p>
-              <p className="font-bold text-[24px]">Rp. 500.000</p>
+              <p className="font-bold text-[24px]">Rp. {itemsPrice.toLocaleString("id-ID")}</p>
             </div>
             <div className="mt-4 ml-6">
               <PrimaryButton type="submit" className="py-[15px] px-[50px]">
