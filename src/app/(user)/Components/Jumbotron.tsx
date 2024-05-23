@@ -8,15 +8,15 @@ export default function Jumbotron() {
         <section className="bg-primary-green rounded-[10px]">
           <div className="mx-[45px] max-w-screen-xl py-[90px]">
             <h1 className="mb-5 text-[40px] font-bold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-              Welcome User
+              Selamat Datang di Wastain
             </h1>
             <p className="text-[16px] font-medium text-white">
-              Selamat datang, user! Website ini dirancang khusus untuk membantu
-              Anda dalam melakukan registrasi check-up kesehatan, selain itu
-              website ini juga bisa membantu Anda melihat riwayat check-up
-              kesehatan. Dapatkan akses informasi kesehatan Anda dengan mudah
-              dan cepat. Kami berkomitmen untuk menyediakan layanan yang dapat
-              meningkatkan kesehatan dan kesejahteraan lansia.
+              Selamat datang di Wastain, destinasi utama untuk pakaian bekas
+              berkualitas tinggi. Temukan gaya unik dan hemat sambil
+              berkontribusi pada lingkungan dengan mendukung gerakan reuse &
+              recycle. Setiap pembelian Anda membantu mengurangi limbah tekstil
+              dan mendukung masa depan yang lebih hijau. Belanja sekarang dan
+              jadi bagian dari perubahan positif!
             </p>
           </div>
         </section>
