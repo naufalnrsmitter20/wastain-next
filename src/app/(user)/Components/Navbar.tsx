@@ -8,6 +8,7 @@ import Cart from "@/app/Icons/Cart";
 import { useRouter } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
 import userProfile from "@/public/navProfile.png";
+import useCartServices from "@/lib/hooks/useCartStore";
 
 interface IUser {
   username: string;
@@ -15,6 +16,8 @@ interface IUser {
 }
 
 export default function Navbars() {
+  const { items } = useCartServices();
+
   const router = useRouter();
   const { data: session, status } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
@@ -36,6 +39,11 @@ export default function Navbars() {
     };
     fetchUser();
   }, [session]);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <React.Fragment>
@@ -65,10 +73,7 @@ export default function Navbars() {
         </form>
         {status === "unauthenticated" ? (
           <section className="flex justify-between gap-x-4">
-            <button
-              onClick={() => router.push("/keranjang")}
-              className="place-items-center flex"
-            >
+            <button onClick={() => router.push("/cart")} className="place-items-center flex">
               <Cart />
               <p className="font-medium leading-relaxed text-[16px]">Cart</p>
             </button>
@@ -89,12 +94,12 @@ export default function Navbars() {
           </section>
         ) : (
           <div className="flex md:order-2 items-center">
-            <button
-              onClick={() => router.push("/cart")}
-              className="place-items-center flex mr-10"
-            >
+            <button onClick={() => router.push("/cart")} className="place-items-center flex mr-10">
               <Cart />
-              <p className="font-medium leading-relaxed text-[16px]">Cart</p>
+              <p className="font-medium leading-relaxed text-[16px]">
+                Cart
+                {mounted && items.length !== 0 && <span className="ml-2 px-1.5 py-0.5 rounded-full bg-primary-green text-white">{items.reduce((a, c) => a + c.qty, 0)} </span>}
+              </p>
             </button>
             {user && (
               <h5 className="mr-6 text-[16px] font-bold">{user.username}</h5>
@@ -113,9 +118,7 @@ export default function Navbars() {
                 </Dropdown.Header>
               )}
               <Dropdown.Divider />
-              <Dropdown.Item onClick={() => router.push("/profile")}>
-                Profile
-              </Dropdown.Item>
+              <Dropdown.Item onClick={() => router.push("/profile")}>Profile</Dropdown.Item>
               <Dropdown.Item onClick={() => signOut()}>Log Out</Dropdown.Item>
             </Dropdown>
           </div>

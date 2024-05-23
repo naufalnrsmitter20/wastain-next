@@ -1,11 +1,14 @@
+import { StaticImageData } from "next/image";
+
 export type dataClothes = {
-  _id: string;
+  _id?: string;
   nama_barang: string;
   slug: string;
   kategori: string;
-  tipe: string;
+  tipe?: string;
   harga: number;
-  stok: number;
+  stok?: number;
+  rating?: number;
   deskripsi: string;
-  image: string;
+  image: StaticImageData;
 };
