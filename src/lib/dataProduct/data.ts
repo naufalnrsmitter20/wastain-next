@@ -25,7 +25,7 @@ const data = {
     {
       nama_barang: "Celana Jeans Biru",
       slug: "celana-jeans-biru",
-      kategori: "reuse",
+      kategori: "recycle",
       tipe: "celana",
       harga: 150000,
       rating: 4,
@@ -58,7 +58,7 @@ const data = {
     {
       nama_barang: "Kemeja Flanel Merah",
       slug: "kemeja-flanel-merah",
-      kategori: "reuse",
+      kategori: "recycle",
       tipe: "kemeja",
       harga: 120000,
       rating: 5,
@@ -69,7 +69,7 @@ const data = {
     {
       nama_barang: "Blus Putih Elegan",
       slug: "blus-putih-elegan",
-      kategori: "reuse",
+      kategori: "recycle",
       tipe: "blus",
       harga: 95000,
       rating: 5,
@@ -103,7 +103,7 @@ const data = {
       nama_barang: "Celana Jogger",
       slug: "celana-jogger",
       kategori: "reuse",
-      tipe: "celana",
+      tipe: "recycle",
       harga: 90000,
       rating: 3,
       stok: 80,
