@@ -7,6 +7,7 @@ export type dataClothes = {
   kategori: string;
   tipe?: string;
   harga: number;
+  diskon?: number;
   stok?: number;
   rating?: number;
   deskripsi: string;
