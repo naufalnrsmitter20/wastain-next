@@ -8,4 +8,5 @@ export type OrderItem = {
   harga: number;
   kategori: string;
   tipe: string;
+  diskon?: number;
 };
