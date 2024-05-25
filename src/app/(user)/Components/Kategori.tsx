@@ -5,6 +5,7 @@ import Reuse from "@/../public/reuse.png";
 import Recycle from "@/../public/recycle.png";
 import ClothesItem from "./ClothesItem";
 import data from "@/lib/dataProduct/data";
+import { convertDocToObject } from "@/lib/utils";
 
 export default function Kategori() {
   const [selected, setSelected] = useState("All");

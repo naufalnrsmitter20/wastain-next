@@ -14,13 +14,7 @@ interface IUser extends userRole {
   email: string;
   password: string;
   alamat: string;
-  clothes_booked: IClothesBooked[];
-  clothes: [
-    {
-      type: Types.ObjectId;
-      ref: "Clothes";
-    }
-  ];
+
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
@@ -45,18 +39,6 @@ const userSchema = new Schema<IUser>({
   alamat: {
     type: String,
   },
-  clothes_booked: {
-    type: [clothesBookedSchema],
-    required: function () {
-      return this.role === "Customer";
-    },
-  },
-  clothes: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Clothes",
-    },
-  ],
 });
 
 userSchema.pre("save", async function (next) {

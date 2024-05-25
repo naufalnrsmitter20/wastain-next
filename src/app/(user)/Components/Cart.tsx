@@ -135,7 +135,7 @@ export default function Cart() {
               <p className="font-bold text-[24px]">Rp. {items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0).toLocaleString("id-ID")}</p>
             </div>
             <div className="mt-4 ml-6">
-              <PrimaryButton onClick={() => router.push("/checkout")} type="submit" className="py-[15px] px-[50px]">
+              <PrimaryButton onClick={() => router.push("/checkout/alamat_pembelian")} type="submit" className="py-[15px] px-[50px]">
                 Checkout
               </PrimaryButton>
             </div>
