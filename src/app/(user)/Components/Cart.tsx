@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Kemeja from "@/../public/Kemeja.png";
-import White from "@/../public/white.png";
 import AR from "@/../public/ArrowRight.png";
 import { InputFields } from "./utilities/InputField";
 import { PrimaryButton } from "./utilities/Buttons";
@@ -13,7 +11,6 @@ import Link from "next/link";
 export default function Cart() {
   const router = useRouter();
   const { items, itemsPrice, decrease, increase } = useCartServices();
-
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -63,7 +60,16 @@ export default function Cart() {
                     <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
                     <div className="mt-11">
                       <p className="text-[14px] font-medium">Harga Satuan</p>
-                      <p className="text-[16px] font-bold">Rp. {item.harga.toLocaleString("id-ID")}</p>
+                      {item.diskon && item.diskon > 0 ? (
+                        <>
+                          <p className="text-[16px] font-semibold text-gray-2">
+                            <s>Rp. {item.harga.toLocaleString("id-ID")}</s>
+                          </p>
+                          <p className="text-[16px] font-bold">Rp. {item.slug && item.diskon ? (item.harga - item.harga * (item.diskon / 100)).toLocaleString("id-ID") : item.harga.toLocaleString("id-ID")}</p>
+                        </>
+                      ) : (
+                        <p className="text-[16px] font-bold text-black">Rp. {item.harga.toLocaleString("id-ID")}</p>
+                      )}
                     </div>
                     <div className="mt-12 ml-5">
                       <p className="text-[14px] font-medium">dikirim dari Jakarta</p>
@@ -89,7 +95,16 @@ export default function Cart() {
                     <div className="w-[1px] h-[60px] bg-gray-1 border mt-9"></div>
                     <div className="mt-10 text-center">
                       <p className="text-[16px] font-medium">Total Harga</p>
-                      <p className="text-[16px] font-bold">Rp. {(item.qty * item.harga).toLocaleString("id-ID")}</p>
+                      {item.diskon && item.diskon > 0 ? (
+                        <>
+                          <p className="text-[16px] font-semibold text-gray-2">
+                            <s>Rp. {(item.harga * item.qty).toLocaleString("id-ID")}</s>
+                          </p>
+                          <p className="text-[16px] font-bold">Rp. {item.slug && item.diskon ? (item.qty * item.harga * (1 - item.diskon / 100)).toLocaleString("id-ID") : (item.harga * item.qty).toLocaleString("id-ID")}</p>
+                        </>
+                      ) : (
+                        <p className="text-[16px] font-bold">Rp. {item.slug && item.diskon ? (item.qty * item.harga * (1 - item.diskon / 100)).toLocaleString("id-ID") : (item.harga * item.qty).toLocaleString("id-ID")}</p>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -103,22 +118,8 @@ export default function Cart() {
       {/* bar */}
       <div className="w-full bg-white h-fit max-w-full mx-auto fixed bottom-0 left-0 border-t border-gray-1">
         <div className="mt-[10px] mx-auto w-full">
-          <h1 className="font-bold text-[24px] ml-16">Total Produk({items.reduce((a, c) => a + c.qty, 0)})</h1>
           <div className="flex gap-x-[20px] justify-between px-20 py-4 pb-6">
-            {/* <div className="flex max-w-sm bg-white rounded-[8px] shadow-md">
-              <Image src={White} width={100} alt="icon reuse" className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]" />
-              <div className="mt-5 pr-4">
-                <p className="font-medium text-[16px]">Kemeja Formal</p>
-                <p className="text-gray-3 text-[14px]">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[8px] shadow-md">
-              <Image src={White} width={100} alt="icon reuse" className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]" />
-              <div className="mt-5 pr-4">
-                <p className="font-medium text-[16px]">Kemeja Formal</p>
-                <p className="text-gray-3 text-[14px]">227rb pencarian </p>
-              </div>
-            </div> */}
+            <h1 className="font-bold text-[24px] ml-16">Total Produk({items.reduce((a, c) => a + c.qty, 0)})</h1>
             <div className="relative flex items-center justify-center w-[85px] bg-white rounded-[8px] shadow-md">
               <Image src={AR} width={20} alt="icon reuse" className="rounded-bl-[10px] rounded-tl-[10px]" />
             </div>
@@ -128,10 +129,13 @@ export default function Cart() {
             </div>
             <div className="mt-3 ml-6">
               <p className="font-medium text-[14px]">Total Harga</p>
-              <p className="font-bold text-[24px]">Rp. {itemsPrice.toLocaleString("id-ID")}</p>
+              <p className="font-semibold text-[16px] text-gray-2">
+                <s>Rp. {itemsPrice.toLocaleString("id-ID")}</s>
+              </p>
+              <p className="font-bold text-[24px]">Rp. {items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0).toLocaleString("id-ID")}</p>
             </div>
             <div className="mt-4 ml-6">
-              <PrimaryButton type="submit" className="py-[15px] px-[50px]">
+              <PrimaryButton onClick={() => router.push("/checkout")} type="submit" className="py-[15px] px-[50px]">
                 Checkout
               </PrimaryButton>
             </div>

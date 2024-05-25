@@ -9,6 +9,8 @@ import AddToCart from "../../Components/AddToCart";
 export default function ProductDetail({ params }: { params: { slug: string } }) {
   const product = data.products.find((items) => items.slug === params.slug);
   const { data: session, status } = useSession();
+  const discount = product?.diskon ? product?.harga * (product?.diskon / 100) : 0;
+  const harga = product?.harga ? product.harga - discount : 0;
 
   if (!product) {
     return (
@@ -61,7 +63,17 @@ export default function ProductDetail({ params }: { params: { slug: string } }) 
               | {product.rating}/{stars.length}
             </div>
           </div>
-          <h2 className="font-bold text-[64px] text-primary-green">Rp. {product.harga.toLocaleString("id-ID")}</h2>
+          <h2 className="font-semibold text-[24px] mt-4 text-gray-3">
+            {product.diskon && product.diskon > 0 ? (
+              <>
+                <s>Rp. {product.harga.toLocaleString("id-ID")}</s> <span className="text-black"> | Diskon {product.diskon}%</span>
+              </>
+            ) : (
+              <></>
+            )}
+          </h2>
+          <h2 className="font-bold text-[64px] text-primary-green -mt-3">Rp. {harga.toLocaleString("id-ID")}</h2>
+
           <h4 className="font-bold mt-4 text-[24px] tracking-wide">Spesifikasi Produk</h4>
           <div className="flex justify-start gap-x-6 items-center">
             <div>
