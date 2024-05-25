@@ -65,11 +65,11 @@ function Form() {
         <div className="bg-white p-4">
           <h1 className="text-xl font-bold">Masukkan data Alamat anda</h1>
           <form className="mt-6" onSubmit={handleSubmit(formSubmit)}>
-            <FormInput name="username" id="username" required />
-            <FormInput name="alamat" id="alamat" required />
-            <FormInput name="kota" id="kota" required />
-            <FormInput name="kode_pos" id="kode_pos" required />
-            <FormInput name="negara" id="negara" required />
+            <FormInput name="username" id="username" required={true} />
+            <FormInput name="alamat" id="alamat" required={true} />
+            <FormInput name="kota" id="kota" required={true} />
+            <FormInput name="kode_pos" id="kode_pos" required={true} />
+            <FormInput name="negara" id="negara" required={true} />
             <div className="my-2">
               <PrimaryButton type="submit" className="px-8 mt-6" disabled={isSubmitting}>
                 {isSubmitting && (
