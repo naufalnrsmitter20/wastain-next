@@ -1,3 +1,4 @@
+"use client";
 import data from "@/lib/dataProduct/data";
 import Image from "next/image";
 import React from "react";
@@ -9,7 +10,7 @@ import AddToCartActions from "./AddToCartActions";
 
 export default function ProductDetail({ params }: { params: { slug: string } }) {
   const product = data.products.find((items) => items.slug === params.slug);
-  // const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
   const discount = product?.diskon ? product?.harga * (product?.diskon / 100) : 0;
   const harga = product?.harga ? product.harga - discount : 0;
 
@@ -94,19 +95,19 @@ export default function ProductDetail({ params }: { params: { slug: string } }) 
             <h5 className="font-bold mt-3 text-[16px] text-gray-3 leading-loose">Deskripsi</h5>
             <p className="font-medium text-primary-black text-[16px] leading-relaxed">{product.deskripsi}</p>
           </div>
-          {/* {status === "unauthenticated" ? (
+          {status === "unauthenticated" ? (
             <PrimaryButton type="button" onClick={handleConfirm} className="px-10 mt-6">
               Tambahkan Ke Keranjang
             </PrimaryButton>
-          ) : ( */}
-          <>
-            {product.stok !== 0 && (
-              <div>
-                <AddToCartActions params={params} />
-              </div>
-            )}
-          </>
-          {/* )} */}
+          ) : (
+            <>
+              {product.stok !== 0 && (
+                <div>
+                  <AddToCartActions params={params} />
+                </div>
+              )}
+            </>
+          )}
         </div>
       </main>
     </>
