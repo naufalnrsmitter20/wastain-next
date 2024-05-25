@@ -28,7 +28,9 @@ export default function Navbars() {
           const res = await fetch("/api/auth/usersauth");
           const data = await res.json();
           const customer = data.user || [];
-          const logInUser = customer.find((user: any) => user.email === session.user?.email);
+          const logInUser = customer.find(
+            (user: any) => user.email === session.user?.email
+          );
           setUser(logInUser || null);
         } catch (error) {
           console.log("Error fetching user : ", error);
@@ -71,7 +73,7 @@ export default function Navbars() {
         </form>
         {status === "unauthenticated" ? (
           <section className="flex justify-between gap-x-4">
-            <button onClick={() => router.push("/keranjang")} className="place-items-center flex">
+            <button onClick={() => router.push("/cart")} className="place-items-center flex">
               <Cart />
               <p className="font-medium leading-relaxed text-[16px]">Cart</p>
             </button>
@@ -82,31 +84,42 @@ export default function Navbars() {
               >
                 masuk
               </button>
-              <button onClick={() => router.push("/register")} className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green">
+              <button
+                onClick={() => router.push("/register")}
+                className="uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green"
+              >
                 daftar
               </button>
             </div>
           </section>
         ) : (
           <div className="flex md:order-2 items-center">
-            <button onClick={() => router.push("/keranjang")} className="place-items-center flex mr-10">
+            <button onClick={() => router.push("/cart")} className="place-items-center flex mr-10">
               <Cart />
               <p className="font-medium leading-relaxed text-[16px]">
                 Cart
                 {mounted && items.length !== 0 && <span className="ml-2 px-1.5 py-0.5 rounded-full bg-primary-green text-white">{items.reduce((a, c) => a + c.qty, 0)} </span>}
               </p>
             </button>
-            {user && <h5 className="mr-6 text-[16px] font-bold">{user.username}</h5>}
-            <Dropdown arrowIcon={false} inline label={<Image src={userProfile} alt="profile" width={40} />}>
+            {user && (
+              <h5 className="mr-6 text-[16px] font-bold">{user.username}</h5>
+            )}
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={<Image src={userProfile} alt="profile" width={40} />}
+            >
               {user && (
                 <Dropdown.Header>
                   <span className="block text-sm">{user.username}</span>
-                  <span className="block truncate mt-2 text-sm font-medium">{user.email}</span>
+                  <span className="block truncate mt-2 text-sm font-medium">
+                    {user.email}
+                  </span>
                 </Dropdown.Header>
               )}
               <Dropdown.Divider />
               <Dropdown.Item onClick={() => router.push("/profile")}>Profile</Dropdown.Item>
-              <Dropdown.Item onClick={() => signOut({ callbackUrl: "/login" })}>Log Out</Dropdown.Item>
+              <Dropdown.Item onClick={() => signOut()}>Log Out</Dropdown.Item>
             </Dropdown>
           </div>
         )}
