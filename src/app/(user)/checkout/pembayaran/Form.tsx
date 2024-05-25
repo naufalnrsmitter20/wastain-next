@@ -12,7 +12,7 @@ function Form() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     savePaymentMethod(selectedPaymentMethod);
-    router.push("/checkout/place-order");
+    router.push("/checkout/pesan");
   };
 
   useEffect(() => {

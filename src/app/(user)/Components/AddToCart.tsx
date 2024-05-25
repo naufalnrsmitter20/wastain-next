@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import useCartServices from "@/lib/hooks/useCartStore";
-import { OrderItem } from "@/lib/dataProduct/orderModels";
+import { OrderItem } from "@/models/orderModels";
 import { useRouter } from "next/navigation";
 import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
 

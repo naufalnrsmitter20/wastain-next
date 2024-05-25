@@ -3,7 +3,7 @@ import useCartServices from "@/lib/hooks/useCartStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm, ValidationRule } from "react-hook-form";
-import { shippingAddress } from "@/lib/dataProduct/orderModels";
+import { shippingAddress } from "@/models/orderModels";
 import { InputFields } from "../../Components/utilities/InputField";
 import CheckoutSteps from "../../Components/utilities/CheckOutSteps";
 import { PrimaryButton } from "../../Components/utilities/Buttons";
@@ -42,20 +42,20 @@ function Form() {
     router.push("/checkout/pembayaran");
   };
 
-  const FormInput = ({ id, name, required, pattern }: { id: keyof shippingAddress; name: string; required?: boolean; pattern?: ValidationRule<RegExp> }) => (
+  const FormInput = ({ _id, name, required, pattern }: { _id: keyof shippingAddress; name: string; required?: boolean; pattern?: ValidationRule<RegExp> }) => (
     <div className="mb-2">
-      <label className="text-[16px] font-medium" htmlFor={id}>
+      <label className="text-[16px] font-medium" htmlFor={_id}>
         {name}
       </label>
       <InputFields
         type="text"
-        id={id}
-        {...register(id, {
+        id={_id}
+        {...register(_id, {
           required: required && `${name} Harus diisi`,
           pattern,
         })}
       />
-      {errors[id]?.message && <div className="text-red-500">{errors[id]?.message}</div>}
+      {errors[_id]?.message && <div className="text-red-500">{errors[_id]?.message}</div>}
     </div>
   );
   return (
@@ -65,11 +65,11 @@ function Form() {
         <div className="bg-white p-4">
           <h1 className="text-xl font-bold">Masukkan data Alamat anda</h1>
           <form className="mt-6" onSubmit={handleSubmit(formSubmit)}>
-            <FormInput name="username" id="username" required={true} />
-            <FormInput name="alamat" id="alamat" required={true} />
-            <FormInput name="kota" id="kota" required={true} />
-            <FormInput name="kode_pos" id="kode_pos" required={true} />
-            <FormInput name="negara" id="negara" required={true} />
+            <FormInput name="username" _id="username" required={true} />
+            <FormInput name="alamat" _id="alamat" required={true} />
+            <FormInput name="kota" _id="kota" required={true} />
+            <FormInput name="kode_pos" _id="kode_pos" required={true} />
+            <FormInput name="negara" _id="negara" required={true} />
             <div className="my-2">
               <PrimaryButton type="submit" className="px-8 mt-6" disabled={isSubmitting}>
                 {isSubmitting && (

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { round2 } from "../utils";
-import { OrderItem, shippingAddress } from "../dataProduct/orderModels";
+import { OrderItem, shippingAddress } from "../../models/orderModels";
 import { persist } from "zustand/middleware";
 
 type Cart = {
@@ -81,12 +81,12 @@ export default function useCartServices() {
         paymentMethod,
       });
     },
-    // clear: () => {
-    //   cartStore.setState({
-    //     items: [],
-    //   });
-    // },
-    // init: () => cartStore.setState(initialState),
+    clear: () => {
+      cartStore.setState({
+        items: [],
+      });
+    },
+    init: () => cartStore.setState(initialState),
   };
 }
 
