@@ -28,7 +28,7 @@ const clothesSchema = new Schema<IClothes>(
     },
     kategori: {
       type: String,
-      enum: ["reuse", "recycle"],
+      enum: ["Reuse", "Recycle"],
       required: true,
     },
     tipe: {
