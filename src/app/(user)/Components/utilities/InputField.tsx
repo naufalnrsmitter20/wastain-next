@@ -1,7 +1,7 @@
 interface IInput {
   id: string;
   type: "text" | "password" | "email" | "number" | "tel" | "date" | "time" | "file" | "month" | "week" | "url" | "search" | "color" | "datetime-local";
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   required?: boolean;
   onChange?: (value: any) => void;

@@ -10,3 +10,11 @@ export type OrderItem = {
   tipe: string;
   diskon?: number;
 };
+
+export type shippingAddress = {
+  username: string;
+  alamat: string;
+  kota: string;
+  kode_pos: string;
+  negara: string;
+};

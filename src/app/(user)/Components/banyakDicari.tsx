@@ -1,8 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Sweater from "@/../public/sweater.jpg";
+import ProductService from "@/services/ProductService";
+import ClothesItem from "./ClothesItem";
 
-export default function BanyakDicari() {
+export default async function BanyakDicari() {
+  const latestProduct = await ProductService.getLatest();
+
   return (
     <React.Fragment>
       <div className="mx-40">
@@ -12,107 +16,11 @@ export default function BanyakDicari() {
         </div>
         <div className="grid grid-rows-2 mb-[24px] gap-y-[16px]">
           <div className="grid grid-cols-4 gap-x-[16px]">
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-x-[16px]">
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
-            <div className="flex max-w-sm bg-white rounded-[10px] shadow-md">
-              <Image
-                src={Sweater}
-                width={100}
-                alt="icon reuse"
-                className="mr-[16px] rounded-bl-[10px] rounded-tl-[10px]"
-              />
-              <div className="mt-5">
-                <p className="font-bold text-[16px]">Sweater</p>
-                <p className="text-gray-3">227rb pencarian </p>
-              </div>
-            </div>
+            {latestProduct.map((item) => (
+              <ClothesItem key={item.slug} product={item} />
+            ))}
           </div>
         </div>
-        <div className="border bg-gray-1 w-full h-[1px] mb-[24px]"></div>
       </div>
     </React.Fragment>
   );

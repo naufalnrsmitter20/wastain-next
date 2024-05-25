@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { round2 } from "../utils";
-import { OrderItem } from "../dataProduct/orderModels";
+import { OrderItem, shippingAddress } from "../dataProduct/orderModels";
 import { persist } from "zustand/middleware";
 
 type Cart = {
@@ -9,6 +9,9 @@ type Cart = {
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
+
+  paymentMethod: string;
+  shippingAddress: shippingAddress;
 };
 
 const initialState: Cart = {
@@ -17,6 +20,14 @@ const initialState: Cart = {
   taxPrice: 0,
   shippingPrice: 0,
   totalPrice: 0,
+  paymentMethod: "BankAccount",
+  shippingAddress: {
+    username: "",
+    alamat: "",
+    kota: "",
+    kode_pos: "",
+    negara: "",
+  },
 };
 
 export const cartStore = create<Cart>()(
@@ -25,13 +36,15 @@ export const cartStore = create<Cart>()(
   })
 );
 export default function useCartServices() {
-  const { items, itemsPrice, taxPrice, shippingPrice, totalPrice } = cartStore((state) => state);
+  const { items, itemsPrice, taxPrice, shippingPrice, totalPrice, paymentMethod, shippingAddress } = cartStore((state) => state);
   return {
     items,
     itemsPrice,
     taxPrice,
     shippingPrice,
     totalPrice,
+    paymentMethod,
+    shippingAddress,
     increase: (item: OrderItem) => {
       const exist = items.find((x) => x.slug === item.slug);
       const updatedCartItems = exist ? items.map((x) => (x.slug === item.slug ? { ...exist, qty: exist.qty + 1 } : x)) : [...items, { ...item, qty: 1 }];
@@ -57,6 +70,23 @@ export default function useCartServices() {
         totalPrice,
       });
     },
+    saveShippingAddrress: (shippingAddress: shippingAddress) => {
+      cartStore.setState({
+        shippingAddress,
+      });
+      console.log(shippingAddress);
+    },
+    savePaymentMethod: (paymentMethod: string) => {
+      cartStore.setState({
+        paymentMethod,
+      });
+    },
+    // clear: () => {
+    //   cartStore.setState({
+    //     items: [],
+    //   });
+    // },
+    // init: () => cartStore.setState(initialState),
   };
 }
 

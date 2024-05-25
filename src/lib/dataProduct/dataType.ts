@@ -11,5 +11,5 @@ export type dataClothes = {
   stok?: number;
   rating?: number;
   deskripsi: string;
-  image: StaticImageData;
+  image: any;
 };
