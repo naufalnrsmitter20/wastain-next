@@ -67,9 +67,13 @@ export default function Login() {
             </div>
             <PrimaryButton type="submit">Masuk</PrimaryButton>
             {error && <p className="text-sm text-red-600 font-medium text-center">{error}</p>}
-            <SecondaryButton onClick={() => signIn("google", { callbackUrl: "/homepage", redirect: false })} type="button">
+            <button
+              className="text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
+              onClick={() => signIn("google", { callbackUrl: "/homepage", redirect: false })}
+              type="button"
+            >
               Masuk Dengan Google
-            </SecondaryButton>
+            </button>
           </form>
           <div className="text-center text-[14px] font-medium mt-[5px] ">
             <p>Lupa kata sandi Anda?</p>

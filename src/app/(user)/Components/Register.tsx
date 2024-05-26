@@ -60,13 +60,9 @@ export default function Register() {
     <React.Fragment>
       <div className="mb-[80px] mt-[60px] mx-auto">
         <div className="text-center text-primary-black">
-          <h1 className="text-[64px] font-bold text-center mb-[20px]">
-            Buat Akun
-          </h1>
+          <h1 className="text-[64px] font-bold text-center mb-[20px]">Buat Akun</h1>
           <p className="text-[16px] mx-auto max-w-[500px] mb-[42px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-            tenetur alias reprehenderit soluta, odio vitae architecto rem
-            consequuntur optio culpa. Modi culpa incidunt.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste tenetur alias reprehenderit soluta, odio vitae architecto rem consequuntur optio culpa. Modi culpa incidunt.
           </p>
         </div>
         <div className="max-w-sm mx-auto text-primary-black">
@@ -83,15 +79,7 @@ export default function Register() {
               />
             </div>
             <div>
-              <InputFields
-                id="email1"
-                name="email"
-                type="email"
-                value={email}
-                onChange={handleChange}
-                placeholder="Email"
-                className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green"
-              />
+              <InputFields id="email1" name="email" type="email" value={email} onChange={handleChange} placeholder="Email" className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green" />
             </div>
             <div>
               <InputFields
@@ -105,14 +93,14 @@ export default function Register() {
               />
             </div>
             <PrimaryButton type="submit">Daftar</PrimaryButton>
-            {error && (
-              <p className="text-sm text-red-600 font-medium text-center">
-                {error}
-              </p>
-            )}
-            <SecondaryButton type="button">
-              Daftar dengan google
-            </SecondaryButton>
+            {error && <p className="text-sm text-red-600 font-medium text-center">{error}</p>}
+            <button
+              className="text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
+              onClick={() => signIn("google", { callbackUrl: "/homepage", redirect: false })}
+              type="button"
+            >
+              Masuk Dengan Google
+            </button>
           </form>
           <div className="flex gap-x-4 place-items-center mx-auto justify-center my-[20px]">
             <div className="bg-primary-black border h-0.5 w-[110px]"></div>
