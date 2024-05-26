@@ -1,7 +1,7 @@
 const CheckoutSteps = ({ current = 0 }) => {
   return (
     <ul className="flex flex-col lg:flex-row items-center justify-center my-10 ">
-      {["User Login", "Shipping Address", "Payment Method", "Place Order"].map((step, index) => (
+      {["Login", "Alamat Pembelian", "Pembayaran", "Pesanan"].map((step, index) => (
         <li key={step}>
           <p
             className={`flex items-center mx-20 justify-center  py-2 px-4 rounded-full

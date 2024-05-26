@@ -2,8 +2,10 @@ import User from "@/models/userModel";
 import { loginWithGoogle } from "@/services/LoginWithGoogle";
 import connect from "@/utils/mongodb";
 import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcrypt";
 
 export const authOption: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -38,7 +40,15 @@ export const authOption: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account, user }: any) {
+    async jwt({ token, account, user, trigger, session }: any) {
+      if (user) {
+        token.user = {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          isAdmin: user.isAdmin,
+        };
+      }
       if (account?.provider === "credentials") {
         token.username = user.username;
         token.email = user.email;
@@ -58,22 +68,25 @@ export const authOption: NextAuthOptions = {
           }
         });
       }
+      if (trigger === "update" && session) {
+        token.user = {
+          ...token.user,
+          email: session.user.email,
+          name: session.user.name,
+        };
+      }
       return token;
     },
-    async session({ session, token }: any) {
-      if ("username" in token) {
-        session.user.username = token.username;
-      }
-      if ("email" in token) {
-        session.user.email = token.email;
-      }
-      if ("role" in token) {
-        session.user.role = token.role;
+    session: async ({ session, token }: any) => {
+      if (token) {
+        session.user = token.user;
       }
       return session;
     },
   },
   pages: {
     signIn: "/login",
+    newUser: "/register",
+    error: "/login",
   },
 };

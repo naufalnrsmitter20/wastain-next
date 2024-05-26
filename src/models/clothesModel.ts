@@ -64,7 +64,7 @@ const clothesSchema = new Schema<IClothes>(
   { timestamps: true }
 );
 
-const clothes = mongoose.models.Clothes || mongoose.model("Clothes", clothesSchema);
+const clothes = mongoose.models.Products || mongoose.model("Products", clothesSchema);
 export default clothes;
 
 export type dataClothes = {
