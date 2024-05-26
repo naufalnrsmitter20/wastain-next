@@ -15,7 +15,9 @@ export default function ProductDetail({
 }) {
   const product = data.products.find((items) => items.slug === params.slug);
   const { data: session, status } = useSession();
-  const discount = product?.diskon ? product?.harga * (product?.diskon / 100) : 0;
+  const discount = product?.diskon
+    ? product?.harga * (product?.diskon / 100)
+    : 0;
   const harga = product?.harga ? product.harga - discount : 0;
 
   if (!product) {
@@ -144,8 +146,12 @@ export default function ProductDetail({
               {product.deskripsi}
             </p>
           </div>
-            {status === "unauthenticated" ? (
-            <PrimaryButton type="button" onClick={handleConfirm} className="px-10 mt-6">
+          {status === "unauthenticated" ? (
+            <PrimaryButton
+              type="button"
+              onClick={handleConfirm}
+              className="px-10 mt-6"
+            >
               Tambahkan Ke Keranjang
             </PrimaryButton>
           ) : (
