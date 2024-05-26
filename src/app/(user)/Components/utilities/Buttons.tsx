@@ -2,8 +2,9 @@ interface IButton {
   children: React.ReactNode;
   className?: string;
   type: "button" | "submit" | "reset" | undefined;
-  onClick?: () => void | Function;
+  onClick?: () => void;
   target?: "_blank" | "_self" | "_parent" | "_top" | undefined;
+  disabled?: any;
 }
 
 export const PrimaryButton = ({ children, className, type, onClick, target }: IButton) => {

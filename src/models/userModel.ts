@@ -1,5 +1,6 @@
 import mongoose, { Schema, Types } from "mongoose";
 import clothesBookedSchema from "./clothesBookedModel";
+import bcrypt from "bcrypt";
 
 // interface import
 import { IClothesBooked } from "./clothesBookedModel";
@@ -13,13 +14,8 @@ interface IUser extends userRole {
   email: string;
   password: string;
   alamat: string;
-  clothes_booked: IClothesBooked[];
-  clothes: [
-    {
-      type: Types.ObjectId;
-      ref: "Clothes";
-    }
-  ];
+
+  comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>({
@@ -43,19 +39,20 @@ const userSchema = new Schema<IUser>({
   alamat: {
     type: String,
   },
-  clothes_booked: {
-    type: [clothesBookedSchema],
-    required: function () {
-      return this.role === "Customer";
-    },
-  },
-  clothes: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Clothes",
-    },
-  ],
 });
 
-const User = mongoose.model("User", userSchema);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+userSchema.methods.comparePassword = function (candidatePassword: string): Promise<boolean> {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 export default User;
