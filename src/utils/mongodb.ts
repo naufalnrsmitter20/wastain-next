@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let uri = process.env.MONGODB_URI as string;
+let uri = "mongodb+srv://x3mnaufalnabilramadhan:HdaXP3DS7shZ3yJH@cluster0.hjimmxk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const connect = async () => {
   if (mongoose.connections[0].readyState) return;
