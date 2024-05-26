@@ -22,7 +22,7 @@ export default function Kategori() {
             <h1 className="text-[24px] font-bold mb-[10px]">Kategori pakaian</h1>
             <div className="mt-[16px] pb-[30px] group">
               <div className="grid grid-cols-2 place-items-center">
-                <div onClick={() => handleCategory("reuse")} className="flex max-w-[550px] p-[12px] bg-white rounded-[10px] hover:ring-2 hover:ring-primary-green/80 focus:ring-primary-green focus:ring-4 shadow-md cursor-pointer">
+                <div onClick={() => handleCategory("Reuse")} className="flex max-w-[550px] p-[12px] bg-white rounded-[10px] hover:ring-2 hover:ring-primary-green/80 focus:ring-primary-green focus:ring-4 shadow-md cursor-pointer">
                   <div>
                     <Image src={Reuse} width={90} alt="icon reuse" className="mr-[16px]" />
                   </div>
@@ -33,7 +33,7 @@ export default function Kategori() {
                     </div>
                   </div>
                 </div>
-                <div onClick={() => handleCategory("recycle")} className="flex max-w-[550px] p-[12px] bg-white rounded-[10px] shadow-md hover:ring-2 hover:ring-primary-green/80 focus:ring-primary-green focus:ring-4 cursor-pointer">
+                <div onClick={() => handleCategory("Recycle")} className="flex max-w-[550px] p-[12px] bg-white rounded-[10px] shadow-md hover:ring-2 hover:ring-primary-green/80 focus:ring-primary-green focus:ring-4 cursor-pointer">
                   <div>
                     <Image src={Recycle} width={90} alt="icon reuse" className="mr-[16px]" />
                   </div>

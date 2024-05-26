@@ -5,7 +5,6 @@ import Image from "next/image";
 import { PrimaryButton } from "../utilities/Buttons";
 import Location from "@/app/Icons/Location";
 import { useSession } from "next-auth/react";
-import Toaster from "../utilities/Toaster";
 import { HiCheck } from "react-icons/hi";
 
 interface IUser {

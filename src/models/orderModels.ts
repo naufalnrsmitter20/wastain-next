@@ -8,7 +8,7 @@ const orderModels = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    items: [
+    item: [
       {
         products: {
           type: mongoose.Schema.Types.ObjectId,
@@ -50,7 +50,7 @@ const OrderModel = mongoose.models.Order || mongoose.model("Order", orderModels)
 export default OrderModel;
 
 export type Order = {
-  _id: string;
+  _id?: string;
   user?: { name: string };
   items: [OrderItem];
   shippingAddress: {

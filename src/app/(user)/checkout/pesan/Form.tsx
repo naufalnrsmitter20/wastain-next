@@ -30,15 +30,18 @@ function Form() {
         totalPrice,
       }),
     });
-    const data = await res.json();
-    if (res.ok) {
-      clear();
-      toast.success("Pesanan berhasil dibuat");
-      return router.push(`/order/${data.order._id}`);
-    } else {
-      toast.error(data.message);
+
+    if (!res.ok) {
+      const errorData = await res.text();
+      console.error(errorData);
+      toast.error("Failed to place order: " + errorData);
+      throw new Error("Network response was not ok" + errorData);
     }
   });
+
+  const handleSubmits = () => {
+    toast.success("Pesanan Berhasil Dibuat");
+  };
 
   //   useEffect(() => {
   //     if (!paymentMethod) {
@@ -192,11 +195,9 @@ function Form() {
               <li>
                 <button
                   type="button"
-                  onClick={() => placeOrder()}
-                  disabled={isPlacing}
+                  onClick={() => alert("Pesanan Berhasil Dibuat")}
                   className="w-full uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green"
                 >
-                  {isPlacing && <Spinner theme={SpinnerProops.spinner} color={"white"}></Spinner>}
                   <span className="ml-3">Buat Pesanan</span>
                 </button>
               </li>

@@ -5,6 +5,7 @@ import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcrypt";
 
 export const authOption: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -89,5 +90,3 @@ export const authOption: NextAuthOptions = {
     error: "/login",
   },
 };
-
-export const { auth, signIn, signOut } = NextAuth(authOption);

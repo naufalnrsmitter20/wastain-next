@@ -1,9 +1,9 @@
-import { auth } from "@/lib/AuthOption";
 import { round2 } from "@/lib/utils";
 import clothes from "@/models/clothesModel";
 import OrderModel, { OrderItem } from "@/models/orderModels";
+import User from "@/models/userModel";
 import connect from "@/utils/mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const calcPrices = (orderItems: OrderItem[]) => {
   // Calculate the items price
@@ -17,29 +17,20 @@ const calcPrices = (orderItems: OrderItem[]) => {
   return { itemsPrice, shippingPrice, taxPrice, totalPrice };
 };
 
-export const POST = auth(async (req: any) => {
-  if (!req.auth) {
-    return NextResponse.json(
-      { message: "unauthorized" },
-      {
-        status: 401,
-      }
-    );
-  }
-  const { user } = req.auth;
+export const POST = async (req: Request) => {
   try {
     const payload = await req.json();
     await connect();
     const dbProductPrices = await clothes.find(
       {
-        _id: { $in: payload.items.map((x: { _id: string }) => x._id) },
+        _id: { $in: payload.item.map((x: { _id: string }) => x._id) },
       },
       "harga"
     );
-    const dbOrderItems = payload.items.map((x: { _id: string }) => ({
+    const dbOrderItems = payload.item.map((x: { _id: string }) => ({
       ...x,
-      products: x._id,
-      harga: dbProductPrices.find((x) => x._id === x._id).price,
+      clothes: x._id,
+      harga: dbProductPrices.find((x) => x._id === x._id).harga,
       _id: undefined,
     }));
 
@@ -53,22 +44,12 @@ export const POST = auth(async (req: any) => {
       totalPrice,
       shippingAddress: payload.shippingAddress,
       paymentMethod: payload.paymentMethod,
-      user: user._id,
+      user: User.castObject(payload.user),
     });
 
     const createdOrder = await newOrder.save();
-    return Response.json(
-      { message: "Pesanan anda telah dibuat", order: createdOrder },
-      {
-        status: 201,
-      }
-    );
+    return NextResponse.json({ message: "Pesanan anda telah dibuat", order: createdOrder }, { status: 201 });
   } catch (err: any) {
-    return Response.json(
-      { message: err.message },
-      {
-        status: 500,
-      }
-    );
+    return NextResponse.json({ message: err.message }, { status: 500 });
   }
-}) as any;
+};
