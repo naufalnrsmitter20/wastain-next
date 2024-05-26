@@ -42,20 +42,21 @@ function Form() {
     router.push("/checkout/pembayaran");
   };
 
-  const FormInput = ({ _id, name, required, pattern }: { _id: keyof shippingAddress; name: string; required?: boolean; pattern?: ValidationRule<RegExp> }) => (
+  const FormInput = ({ id, name, required, pattern }: { id: keyof shippingAddress; name: string; required?: boolean; pattern?: ValidationRule<RegExp> }) => (
     <div className="mb-2">
-      <label className="text-[16px] font-medium" htmlFor={_id}>
+      <label className="text-[16px] font-medium" htmlFor={id}>
         {name}
       </label>
-      <InputFields
+      <input
         type="text"
-        id={_id}
-        {...register(_id, {
+        id={id}
+        className="rounded-[10px] w-full bg-gray-4 border-none mb-[10px] py-[10px] px-[20px] focus:ring-primary-green"
+        {...register(id, {
           required: required && `${name} Harus diisi`,
           pattern,
         })}
       />
-      {errors[_id]?.message && <div className="text-red-500">{errors[_id]?.message}</div>}
+      {errors[id]?.message && <div className="text-red-500">{errors[id]?.message}</div>}
     </div>
   );
   return (
@@ -65,11 +66,11 @@ function Form() {
         <div className="bg-white p-4">
           <h1 className="text-xl font-bold">Masukkan data Alamat anda</h1>
           <form className="mt-6" onSubmit={handleSubmit(formSubmit)}>
-            <FormInput name="username" _id="username" required={true} />
-            <FormInput name="alamat" _id="alamat" required={true} />
-            <FormInput name="kota" _id="kota" required={true} />
-            <FormInput name="kode_pos" _id="kode_pos" required={true} />
-            <FormInput name="negara" _id="negara" required={true} />
+            <FormInput name="username" id="username" required />
+            <FormInput name="alamat" id="alamat" required />
+            <FormInput name="kota" id="kota" required />
+            <FormInput name="kode_pos" id="kode_pos" required />
+            <FormInput name="negara" id="negara" required />
             <div className="my-2">
               <PrimaryButton type="submit" className="px-8 mt-6" disabled={isSubmitting}>
                 {isSubmitting && (
