@@ -43,15 +43,15 @@ function Form() {
     toast.success("Pesanan Berhasil Dibuat");
   };
 
-  //   useEffect(() => {
-  //     if (!paymentMethod) {
-  //       return router.push("/pembayaran");
-  //     }
-  //     if (items.length === 0) {
-  //       return router.push("/homepage");
-  //     }
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [paymentMethod, router]);
+  useEffect(() => {
+    if (!paymentMethod) {
+      return router.push("/checkout/pembayaran");
+    }
+    if (items.length === 0) {
+      return router.push("/homepage");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paymentMethod, router]);
   const AfterDiscount = items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0);
 
   const totalFix = AfterDiscount + taxPrice;

@@ -6,6 +6,7 @@ import { PrimaryButton } from "../utilities/Buttons";
 import Location from "@/app/Icons/Location";
 import { useSession } from "next-auth/react";
 import { HiCheck } from "react-icons/hi";
+import useCartServices from "@/lib/hooks/useCartStore";
 
 interface IUser {
   username: string;
@@ -13,6 +14,7 @@ interface IUser {
 }
 
 function ProfileHeader() {
+  const { shippingAddress } = useCartServices();
   const { data: session, status } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
   useEffect(() => {
@@ -46,7 +48,7 @@ function ProfileHeader() {
           {user && (
             <div className="mt-10">
               <p className="font-medium text-[16px] leading-loose">Nama : {user.username}</p>
-              <p className="font-medium text-[16px] leading-loose">Alamat : </p>
+              <p className="font-medium text-[16px] leading-loose">Alamat : {shippingAddress.alamat}</p>
               <p className="font-medium text-[16px] leading-loose">Email : {user.email}</p>
             </div>
           )}
