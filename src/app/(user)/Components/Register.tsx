@@ -60,10 +60,7 @@ export default function Register() {
     <React.Fragment>
       <div className="mb-[80px] mt-[60px] mx-auto">
         <div className="text-center text-primary-black">
-          <h1 className="text-[64px] font-bold text-center mb-[20px]">Buat Akun</h1>
-          <p className="text-[16px] mx-auto max-w-[500px] mb-[42px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste tenetur alias reprehenderit soluta, odio vitae architecto rem consequuntur optio culpa. Modi culpa incidunt.
-          </p>
+          <h1 className="text-[40px] font-bold text-center mb-[20px] pt-6 lg:pt-10">Buat Akun</h1>
         </div>
         <div className="max-w-sm mx-auto text-primary-black">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>

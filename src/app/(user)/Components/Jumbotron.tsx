@@ -4,7 +4,7 @@ import { AlertsLight } from "./utilities/Alert";
 export default function Jumbotron() {
   return (
     <React.Fragment>
-      <div className="mt-[56px] mb-[48px] mx-40">
+      <div className="mt-32 mb-[48px] mx-6 md:mx-16 lg:mx-24 xl:mx-40">
         <section className="bg-primary-green rounded-[10px]">
           <div className="mx-[45px] max-w-screen-xl py-[90px]">
             <h1 className="mb-5 text-[40px] font-bold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Selamat Datang di Wastain</h1>

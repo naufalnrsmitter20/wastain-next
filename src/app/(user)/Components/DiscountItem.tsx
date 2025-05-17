@@ -12,11 +12,11 @@ export default function DiscountItem({ product }: { product: dataClothes }) {
   const harga = product.harga - discount;
   return (
     <React.Fragment>
-      <div className="max-w-xs bg-white shadow-gray-1 rounded-lg shadow ">
+      <div className="bg-white shadow-gray-1 rounded-lg shadow flex flex-col justify-between h-full">
         <Link href={`/product/${product.slug}`}>
           <Image src={product.image} width={240} height={240} className="object-cover w-full h-60 object-top rounded-lg" alt="kemeja hehe" />
         </Link>
-        <div className="p-5 relative  flex-col justify-between">
+        <div className="p-5 relative flex flex-col justify-between h-full">
           <div>
             <a href="#">
               <p className="font-bold text-[16px] tracking-wide">{product.nama_barang}</p>

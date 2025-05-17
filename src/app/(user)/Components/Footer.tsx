@@ -1,14 +1,19 @@
-import Image from "next/image";
 import React from "react";
-
-import logo from "@/public/logo-wastain.png";
+import Link from "next/link";
 
 export default function Footer() {
   return (
     <React.Fragment>
-      <footer className="flex justify-between px-32 bg-white pt-10 py-28 border-t border-gray-1">
-        <div></div>
-        <Image src={logo} width={400} alt="wastain logo" />
+      <footer className="bg-primary-green rounded-lg shadow-sm m-4">
+        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+          <span className="block text-base text-white sm:text-center font-medium ">
+            © 2025{" "}
+            <Link href="https://www.naufalnr.xyz" className="hover:underline">
+              Naufalnr
+            </Link>
+            . All Rights Reserved.
+          </span>
+        </div>
       </footer>
     </React.Fragment>
   );

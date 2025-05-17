@@ -1,14 +1,11 @@
 "use client";
 import React, { ChangeEventHandler, useState } from "react";
-import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { PrimaryButton, SecondaryButton } from "./utilities/Buttons";
+import { useRouter } from "next/navigation";
+import { PrimaryButton } from "./utilities/Buttons";
 import { InputFields } from "./utilities/InputField";
-import axios from "axios";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState({
@@ -52,12 +49,9 @@ export default function Login() {
     <React.Fragment>
       <div className="mb-[80px] mt-[60px] mx-auto">
         <div className="text-center text-primary-black">
-          <h1 className="text-[64px] font-bold text-center mb-[20px]">Selamat Datang</h1>
-          <p className="text-[16px] mx-auto max-w-[500px] mb-[42px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste tenetur alias reprehenderit soluta, odio vitae architecto rem consequuntur optio culpa. Modi culpa incidunt.
-          </p>
+          <h1 className="text-[40px] font-bold text-center mb-[20px] pt-6 lg:pt-10">Selamat Datang</h1>
         </div>
-        <div className="max-w-sm mx-auto text-primary-black">
+        <div className="max-w-sm mx-auto text-primary-black px-6 md:px-0">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
               <InputFields value={email} onChange={handleChange} id="email1" name="email" type="email" placeholder="Email" required={true} />
@@ -69,7 +63,7 @@ export default function Login() {
             {error && <p className="text-sm text-red-600 font-medium text-center">{error}</p>}
             <button
               className="text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
-              onClick={() => signIn("google", { callbackUrl: "/homepage", redirect: false })}
+              onClick={() => signIn("google", { callbackUrl: "/profile", redirect: false })}
               type="button"
             >
               Masuk Dengan Google
