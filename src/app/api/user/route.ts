@@ -1,37 +1,53 @@
-import User from "@/models/userModel";
-import connect from "@/utils/mongodb";
-import { NextResponse } from "next/server";
+import prisma from "@/utils/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
+// GET - fetch all users
 export async function GET() {
   try {
-    await connect();
-    const customer = await User.find();
-    return NextResponse.json({ customer });
+    const customers = await prisma.user.findMany();
+    return NextResponse.json({ customer: customers }, { status: 200 });
   } catch (error) {
     console.error("Error fetching customer:", error);
-    return NextResponse.json({ message: "New data Failed to Created" }, { status: 201 });
+    return NextResponse.json({ message: "Failed to fetch data" }, { status: 500 });
   }
 }
 
-export async function POST(request: any): Promise<NextResponse> {
-  const { username, email, alamat, clothes_booked, clothes } = await request.json();
-  await connect();
-  await User.create({
-    username,
-    email,
-    alamat,
-    clothes_booked,
-    clothes,
-  });
-  return NextResponse.json({ message: "New data Success to Created" }, { status: 201 });
+// POST - create new user
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  try {
+    const { username, email, alamat } = await request.json();
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        email,
+        alamat,
+        password: "",
+        role: "Customer",
+        Order: {},
+      },
+    });
+    return NextResponse.json({ message: "New data successfully created", user: newUser }, { status: 201 });
+  } catch (error) {
+    console.error("POST Error:", error);
+    return NextResponse.json({ message: "Failed to create data" }, { status: 500 });
+  }
 }
 
-export async function DELETE(request: any): Promise<NextResponse> {
-  const id: string | null = request.nextUrl.searchParams.get("_id");
-  if (!id) {
-    throw new Error("ID parameter is missing");
+// DELETE - delete user by ID
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const id = request.nextUrl.searchParams.get("_id");
+    if (!id) {
+      return NextResponse.json({ message: "ID parameter is missing" }, { status: 400 });
+    }
+
+    await prisma.user.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("DELETE Error:", error);
+    return NextResponse.json({ message: "Failed to delete user" }, { status: 500 });
   }
-  await connect();
-  await User.findByIdAndDelete(id);
-  return NextResponse.json({ message: "Data data deleted!" }, { status: 200 });
 }

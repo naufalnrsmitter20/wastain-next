@@ -1,6 +1,5 @@
-import { IClothesBooked } from "@/models/clothesBookedModel";
-import User from "@/models/userModel";
-import connect from "@/utils/mongodb";
+import prisma from "@/utils/prisma";
+import { ClothesBooked } from "@prisma/client";
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -11,49 +10,54 @@ interface NewUserRequest {
 }
 
 interface NewUserResponse {
-  _id: string;
+  id: string;
   username: string;
   email: string;
-  alamat?: string;
-  clothes_booked?: IClothesBooked[];
-  clothes?: [
-    {
-      type: Types.ObjectId;
-      ref: "Clothes";
-    }
-  ];
+  order?: ClothesBooked[];
 }
 
 type NewResponse = NextResponse<{ user?: NewUserResponse; error?: string }>;
 
 export const POST = async (req: Request): Promise<NewResponse> => {
   const body = (await req.json()) as NewUserRequest;
-  await connect();
-  const oldUser = await User.findOne({ email: body.email });
+  const oldUser = await prisma.user.findUnique({
+    where: {
+      email: body.email,
+    },
+  });
   if (oldUser) return NextResponse.json({ error: "Email sudah digunakan!" }, { status: 501 });
   if (!body.username || !body.email || !body.password) {
     return NextResponse.json({ error: "username, email, dan password harus diisi!" }, { status: 402 });
   }
-  const user = await User.create({ ...body });
-  return NextResponse.json({
-    user: {
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      alamat: user.alamat,
-      clothes_booked: user.clothes_booked,
-      clothes: user.clothes,
+  const user = await prisma.user.create({
+    data: {
+      username: body.username,
+      email: body.email,
+      password: body.password,
+      role: "Customer",
+      Order: {},
     },
+    include: { Order: true },
   });
+
+  return NextResponse.json(
+    {
+      user: {
+        id: user.id,
+        username: (user.username as string) || user.email.split("@")[0],
+        email: user.email,
+      },
+    },
+    { status: 201 }
+  );
 };
 
 export async function GET() {
   try {
-    await connect();
-    const user = await User.find();
+    const user = await prisma.user.findMany();
     return NextResponse.json({ user });
   } catch (error) {
     console.error("Error fetching user:", error);
-    return NextResponse.json({ message: "New user Failed to Created" }, { status: 201 });
+    return NextResponse.json({ message: "User not found" }, { status: 401 });
   }
 }

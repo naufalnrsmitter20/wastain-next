@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <React.Fragment>
-      <div className="mb-[80px] mt-[60px] mx-auto">
+      <div className="mb-[80px] mt-[60px] mx-auto min-h-[80vh]">
         <div className="text-center text-primary-black">
           <h1 className="text-[40px] font-bold text-center mb-[20px] pt-6 lg:pt-10">Selamat Datang</h1>
         </div>

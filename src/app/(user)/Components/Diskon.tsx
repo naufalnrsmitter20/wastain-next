@@ -1,6 +1,4 @@
 import React from "react";
-import Image from "next/image";
-import Model from "@/../public/foto-model.jpg";
 import data from "@/lib/dataProduct/data";
 import DiscountItem from "./DiscountItem";
 
