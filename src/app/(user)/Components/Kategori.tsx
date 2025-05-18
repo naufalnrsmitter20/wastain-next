@@ -6,13 +6,14 @@ import Recycle from "@/../public/recycle.png";
 import ClothesItem from "./ClothesItem";
 import data from "@/lib/dataProduct/data";
 import Badge from "@/app/Icons/Badge";
+import { Prisma } from "@prisma/client";
 
-export default function Kategori() {
+export default function Kategori({ data }: { data: Prisma.ProductsGetPayload<{}>[] }) {
   const [selected, setSelected] = useState("All");
   const handleCategory = (category: string) => {
     setSelected(category);
   };
-  const filteredProducts = selected === "All" ? data.products : data.products.filter((product) => product.kategori === selected);
+  const filteredProducts = selected === "All" ? data : data.filter((product) => product.kategori === selected);
 
   return (
     <React.Fragment>

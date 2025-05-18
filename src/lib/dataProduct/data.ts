@@ -1,13 +1,3 @@
-import kaosPolosHitam from "@/public/images/kaos-polos-hitam.jpg";
-import celanaJeansBiru from "@/public/images/celana-jeans-biru.jpg";
-import jaketDenim from "@/public/images/jaket-denim.jpg";
-import rokMiniPolkadot from "@/public/images/rok-mini-polkadot.jpg";
-import kemejaFlannelMerah from "@/public/images/kemeja-flannel merah.jpg";
-import blusPutih from "@/public/images/blus-putih-elegan.jpg";
-import sweaterAbu from "@/public/images/sweater-rajut-abu.jpg";
-import cardiganPanjang from "@/public/images/cardigan-panjang.jpg";
-import celanaJogger from "@/public/images/celana-jogger.jpg";
-import tunikBatik from "@/public/images/tunik-batik.jpg";
 import { Kategori } from "@prisma/client";
 
 const data = {

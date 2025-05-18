@@ -2,7 +2,7 @@ import data from "@/lib/dataProduct/data";
 import prisma from "@/utils/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export const POST = async () => {
   const { products } = data;
   await Promise.all([
     prisma.products.deleteMany(),
