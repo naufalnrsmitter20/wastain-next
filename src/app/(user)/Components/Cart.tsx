@@ -19,7 +19,7 @@ export default function Cart() {
   if (!mounted) return <></>;
   return (
     <React.Fragment>
-      <div className="mx-40 mt-[75px]">
+      <div className="mx-40 mt-[75px] h-screen pt-20">
         <div className="mb-[50px]">
           <h1 className="text-primary-green font-bold text-[64px]">Keranjang Belanja</h1>
         </div>
