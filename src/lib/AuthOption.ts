@@ -2,9 +2,8 @@ import { loginWithGoogle } from "@/services/LoginWithGoogle";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 export const authOption: NextAuthOptions = {
   session: { strategy: "jwt" },
