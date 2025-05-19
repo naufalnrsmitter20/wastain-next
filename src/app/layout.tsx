@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Work_Sans } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import AuthenticationProviders from "@/lib/authenticationProviders";
+import { Toaster } from "react-hot-toast";
 
-const inter = Work_Sans({ subsets: ["latin"] });
+const inter = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Wastain",
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
         <AuthenticationProviders>{children}</AuthenticationProviders>
+        <Toaster />
       </body>
     </html>
   );
