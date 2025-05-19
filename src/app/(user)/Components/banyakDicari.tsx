@@ -1,5 +1,4 @@
 import React from "react";
-import ProductService from "@/services/ProductService";
 import ClothesItem from "./ClothesItem";
 import { Prisma } from "@prisma/client";
 
