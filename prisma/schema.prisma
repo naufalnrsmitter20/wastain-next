@@ -62,6 +62,7 @@ type OrderItem {
   harga       Float
   kategori    String
   tipe        String
+  location    String
   diskon      Float
 }
 
@@ -87,6 +88,7 @@ model Products {
   tipe        String
   harga       Float
   stok        Int
+  location    String?
   rating      Float
   diskon      Float?
   deskripsi   String

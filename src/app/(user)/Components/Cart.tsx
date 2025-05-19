@@ -15,6 +15,7 @@ export default function Cart() {
   useEffect(() => {
     setMounted(true);
   }, []);
+  console.log(items);
 
   if (!mounted) return <></>;
   return (
@@ -76,7 +77,7 @@ export default function Cart() {
                       )}
                     </div>
                     <div className="mt-12 ml-5">
-                      <p className="text-[14px] font-medium">dikirim dari</p>
+                      <p className="text-[14px] font-medium">dikirim dari {item.location}</p>
                     </div>
                     <div className="mx-3 mt-8">
                       <p className="text-[16px] font-medium mb-2">Jumlah Produk</p>
