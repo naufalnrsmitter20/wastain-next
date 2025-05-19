@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Customer
+  Seller
+  Admin
+}
+
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  username String
+  email    String  @unique
+  password String?
+  role     Role    @default(Customer)
+  alamat   String?
+  Order    Order[]
+
+  @@map("User")
+}
+
+model Order {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String          @db.ObjectId
+  user            User            @relation(fields: [userId], references: [id])
+  item            OrderItem[]
+  shippingAddress ShippingAddress
+  paymentMethod   String
+  paymentResult   PaymentResult?
+  itemsPrice      Float
+  shippingPrice   Float
+  taxPrice        Float
+  totalPrice      Float
+  isPaid          Boolean         @default(false)
+  isDelivered     Boolean         @default(false)
+  paidAt          DateTime?
+  deliveredAt     DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@map("Order")
+}
+
+type OrderItem {
+  productsId  String @db.ObjectId
+  nama_barang String
+  slug        String
+  qty         Int
+  image       String
+  harga       Float
+  kategori    String
+  tipe        String
+  location    String
+  diskon      Float
+}
+
+type ShippingAddress {
+  username String
+  alamat   String
+  kota     String
+  kode_pos String
+  negara   String
+}
+
+type PaymentResult {
+  id            String
+  status        String
+  email_address String
+}
+
+model Products {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  nama_barang String
+  slug        String
+  kategori    Kategori
+  tipe        String
+  harga       Float
+  stok        Int
+  location    String?
+  rating      Float
+  diskon      Float?
+  deskripsi   String
+  image       String
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("Products")
+}
+
+model NotaPembelian {
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  nomor_nota        String
+  daftar_barang     String[]
+  metode_pembayaran MetodePembayaran
+  nama_produk       String
+  tanggal_pembelian DateTime
+  subtotal          Float
+  pajak             Float
+  diskon            Float
+  status_pembayaran StatusPembayaran
+  ClothesBooked     ClothesBooked[]
+}
+
+model ClothesBooked {
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  bookedId          String
+  notaPembelianId   String           @db.ObjectId
+  nota_pembelian    NotaPembelian    @relation(fields: [notaPembelianId], references: [id])
+  metode_pembayaran MetodePembayaran
+}
+
+enum Kategori {
+  Reuse
+  Recycle
+}
+
+enum MetodePembayaran {
+  kartu_kredit
+  transfer_bank
+  tunai
+}
+
+enum StatusPembayaran {
+  lunas
+  belum_lunas
+  belum_dibayar
+}

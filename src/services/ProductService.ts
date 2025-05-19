@@ -1,25 +1,30 @@
-import clothes, { dataClothes } from "@/models/clothesModel";
-import connect from "@/utils/mongodb";
+import { PrismaClient } from "@prisma/client";
 import { cache } from "react";
 
+const prisma = new PrismaClient();
 export const revalidate = 3000;
 
 const getLatest = cache(async () => {
-  await connect();
-  const products = await clothes.find({}).sort({ _id: -1 }).limit(4).lean();
-  return products as dataClothes[];
+  const products = await prisma.products.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
+  return products;
 });
 
 const getFeatured = cache(async () => {
-  await connect();
-  const Products = await clothes.find({ isFeatured: true }).limit(3).lean();
-  return Products as dataClothes[];
+  const products = await prisma.products.findMany({
+    where: { isFeatured: true },
+    take: 3,
+  });
+  return products;
 });
 
 const getBySlug = cache(async (slug: string) => {
-  await connect();
-  const Product = await clothes.findOne({ slug }).lean();
-  return Product as dataClothes[];
+  const product = await prisma.products.findFirst({
+    where: { slug },
+  });
+  return product;
 });
 
 const ProductService = {

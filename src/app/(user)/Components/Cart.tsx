@@ -15,17 +15,23 @@ export default function Cart() {
   useEffect(() => {
     setMounted(true);
   }, []);
+  console.log(items);
 
   if (!mounted) return <></>;
   return (
     <React.Fragment>
+
       <div className="mx-40 mt-[75px] h-screen pt-20">
         <div className="mb-[50px]">
           <h1 className="text-primary-green font-bold text-[64px]">Keranjang Belanja</h1>
         </div>
-        <Link href={"/homepage#products"} className="font-bold text-[16px] text-primary-black underline">
-          Kembali ke halaman produk
-        </Link>
+        {items.length > 0 && (
+          <p>
+            <Link href={"/#products"} className="font-bold text-[16px] text-primary-black underline">
+              Kembali ke halaman produk
+            </Link>
+          </p>
+        )}
         <div className="bg-white shadow w-full rounded-[10px] mb-[150px]">
           <div className="mx-[25px]">
             <p className="py-[25px] font-bold text-[16px] text-light-green">Pilih Produk</p>
@@ -34,7 +40,7 @@ export default function Cart() {
               <>
                 <p className="font-bold text-[24px] ml-16">
                   Keranjang kosong!{" "}
-                  <Link href={"/homepage"} className="text-primary-green underline">
+                  <Link href={"/"} className="text-primary-green underline">
                     Klik untuk pergi belanja
                   </Link>
                 </p>
@@ -46,7 +52,7 @@ export default function Cart() {
                     <div>
                       <div className="max-w-[140px] p-[10px] bg-white rounded-[10px] border border-gray-200">
                         <Link href={`/product/${item.slug}`}>
-                          <Image src={item.image} width={100} alt={item.nama_barang} />
+                          <Image src={item.image} width={100} height={100} alt={item.nama_barang} />
                         </Link>
                       </div>
                     </div>
@@ -72,7 +78,7 @@ export default function Cart() {
                       )}
                     </div>
                     <div className="mt-12 ml-5">
-                      <p className="text-[14px] font-medium">dikirim dari Jakarta</p>
+                      <p className="text-[14px] font-medium">dikirim dari {item.location}</p>
                     </div>
                     <div className="mx-3 mt-8">
                       <p className="text-[16px] font-medium mb-2">Jumlah Produk</p>

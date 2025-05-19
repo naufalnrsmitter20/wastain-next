@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { round2 } from "../utils";
-import { OrderItem, shippingAddress } from "../../models/orderModels";
 import { persist } from "zustand/middleware";
+import { OrderItem, ShippingAddress } from "@prisma/client";
 
 type Cart = {
   items: OrderItem[];
@@ -9,9 +9,8 @@ type Cart = {
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
-
   paymentMethod: string;
-  shippingAddress: shippingAddress;
+  shippingAddress: ShippingAddress;
 };
 
 const initialState: Cart = {
@@ -70,7 +69,7 @@ export default function useCartServices() {
         totalPrice,
       });
     },
-    saveShippingAddrress: (shippingAddress: shippingAddress) => {
+    saveShippingAddrress: (shippingAddress: ShippingAddress) => {
       cartStore.setState({
         shippingAddress,
       });

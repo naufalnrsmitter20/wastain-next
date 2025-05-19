@@ -1,11 +1,10 @@
 import React from "react";
-import Image from "next/image";
-import Model from "@/../public/foto-model.jpg";
 import data from "@/lib/dataProduct/data";
 import DiscountItem from "./DiscountItem";
+import { Prisma } from "@prisma/client";
 
-export default function Diskon() {
-  const filteredDiskon = data.products.filter((product) => product.diskon);
+export default function Diskon({ data }: { data: Prisma.ProductsGetPayload<{}>[] }) {
+  const filteredDiskon = data.filter((product) => product.diskon);
   return (
     <React.Fragment>
       <div className="mb-[48px] mx-6 md:mx-16 lg:mx-24 xl:mx-40">

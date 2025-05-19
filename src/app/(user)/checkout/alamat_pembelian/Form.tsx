@@ -3,12 +3,11 @@ import useCartServices from "@/lib/hooks/useCartStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm, ValidationRule } from "react-hook-form";
-import { shippingAddress } from "@/models/orderModels";
-import { InputFields } from "../../Components/utilities/InputField";
 import CheckoutSteps from "../../Components/utilities/CheckOutSteps";
 import { PrimaryButton } from "../../Components/utilities/Buttons";
 import { Spinner } from "flowbite-react";
 import SpinnerProops from "../../Components/utilities/Spinner";
+import { ShippingAddress } from "@prisma/client";
 
 function Form() {
   const router = useRouter();
@@ -18,7 +17,7 @@ function Form() {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<shippingAddress>({
+  } = useForm<ShippingAddress>({
     defaultValues: {
       username: "",
       alamat: "",
@@ -36,13 +35,13 @@ function Form() {
     setValue("negara", shippingAddress.negara);
   }, [setValue, shippingAddress]);
 
-  const formSubmit: SubmitHandler<shippingAddress> = async (form) => {
+  const formSubmit: SubmitHandler<ShippingAddress> = async (form) => {
     saveShippingAddrress(form);
     console.log(form);
     router.push("/checkout/pembayaran");
   };
 
-  const FormInput = ({ id, name, required, pattern }: { id: keyof shippingAddress; name: string; required?: boolean; pattern?: ValidationRule<RegExp> }) => (
+  const FormInput = ({ id, name, required, pattern }: { id: keyof ShippingAddress; name: string; required?: boolean; pattern?: ValidationRule<RegExp> }) => (
     <div className="mb-2">
       <label className="text-[16px] font-medium" htmlFor={id}>
         {name}

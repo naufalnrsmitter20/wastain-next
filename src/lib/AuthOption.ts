@@ -1,11 +1,10 @@
-import User from "@/models/userModel";
 import { loginWithGoogle } from "@/services/LoginWithGoogle";
-import connect from "@/utils/mongodb";
 import { NextAuthOptions } from "next-auth";
-import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+const prisma = new PrismaClient();
 
 export const authOption: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -21,19 +20,33 @@ export const authOption: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { email } = credentials as {
+        const { email, password } = credentials as {
           email: string;
           password: string;
         };
-        await connect();
-        const user = await User.findOne({ email });
+
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
+
         if (!user) {
-          throw new Error("Email/Password salah!");
+          throw new Error("Email tidak ditemukan!");
         }
-        return user.toObject();
+
+        const isPasswordValid = await bcrypt.compare(password, user.password as string);
+
+        if (!isPasswordValid) {
+          throw new Error("Password salah!");
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.username,
+          role: user.role,
+        };
       },
     }),
-    // google providers
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
@@ -56,18 +69,21 @@ export const authOption: NextAuthOptions = {
       }
       if (account?.provider === "google") {
         const data = {
-          username: user.username,
+          username: user.name || user.email.split("@")[0],
           email: user.email,
-          type: "google",
         };
-        await loginWithGoogle(data, (result: { status: boolean; data: any }) => {
-          if (result.status) {
-            token.email = result.data.email;
-            token.username = result.data.username;
-            token.role = result.data.role;
-          }
-        });
+
+        const result = await loginWithGoogle(data);
+        if (result.status) {
+          token.user = {
+            _id: result.data.id,
+            email: result.data.email,
+            name: result.data.username,
+            role: result.data.role,
+          };
+        }
       }
+
       if (trigger === "update" && session) {
         token.user = {
           ...token.user,
