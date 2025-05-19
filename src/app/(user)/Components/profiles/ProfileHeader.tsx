@@ -36,7 +36,7 @@ function ProfileHeader() {
 
   return (
     <React.Fragment>
-      <div className="flex justify-start gap-x-28 mx-auto max-w-4xl mt-16">
+      <div className="flex justify-start gap-x-28 mx-auto max-w-4xl mt-20 pt-10">
         <aside>
           <Image width={240} src={profileIcon} alt="icons" />
           <PrimaryButton type="button" className="w-full mt-8">
