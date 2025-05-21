@@ -5,43 +5,88 @@ import { Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { deleteUserById } from "@/utils/actions/userServerActions";
+import { deleteProductById, deleteUserById } from "@/utils/actions/userServerActions";
 import AddUser from "./AddUser";
 import Modal from "./Modal";
+import Image from "next/image";
 
-export default function UserTable({ customer }: { customer: Prisma.UserGetPayload<{}>[] }) {
+export default function ProductTable({ product }: { product: Prisma.ProductsGetPayload<{}>[] }) {
   const [modal, setModal] = useState(false);
-  const [userData, setUserData] = useState<Prisma.UserGetPayload<{}> | null>(null);
+  const [userData, setUserData] = useState<Prisma.ProductsGetPayload<{}> | null>(null);
   const [loader, setLoader] = useState(true);
   const [searchInput, setSearchInput] = useState<string>("");
-  const [filteredStudent, setFilteredStudent] = useState<Prisma.UserGetPayload<{}>[]>(customer);
+  const [filteredStudent, setFilteredStudent] = useState<Prisma.ProductsGetPayload<{}>[]>(product);
   const router = useRouter();
 
   useEffect(() => {
     const filterProjects = () => {
-      const filteredByName = customer.filter((x) => x.username.toLowerCase().includes(searchInput.toLowerCase()));
+      const filteredByName = product.filter((x) => x.nama_barang.toLowerCase().includes(searchInput.toLowerCase()));
       setFilteredStudent(filteredByName);
     };
     filterProjects();
-  }, [customer, searchInput]);
+  }, [product, searchInput]);
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
-  const columns: TableColumn<Prisma.UserGetPayload<{}>>[] = [
+  const columns: TableColumn<Prisma.ProductsGetPayload<{}>>[] = [
     {
-      name: "Username",
-      selector: (row) => row.username,
+      name: "Image",
+      cell: (row) => (
+        <div className="w-16 h-16 my-2">
+          <Image width={64} height={64} src={row.image} alt={row.nama_barang} className="w-full h-full object-cover rounded-lg" />
+        </div>
+      ),
       sortable: true,
     },
     {
-      name: "Email",
-      selector: (row) => row.email,
+      name: "Nama Barang",
+      selector: (row) => row.nama_barang,
       sortable: true,
     },
     {
-      name: "Role",
-      selector: (row) => row.role,
+      name: "Slug",
+      selector: (row) => row.slug,
+      sortable: true,
+    },
+    {
+      name: "Tipe",
+      selector: (row) => row.tipe,
+      sortable: true,
+    },
+    {
+      name: "Deskripsi",
+      selector: (row) => row.deskripsi,
+      sortable: true,
+    },
+    {
+      name: "Stok",
+      selector: (row) => row.stok,
+      sortable: true,
+    },
+    {
+      name: "Harga",
+      selector: (row) => row.harga,
+      sortable: true,
+    },
+    {
+      name: "Rating",
+      selector: (row) => row.rating,
+      sortable: true,
+    },
+    {
+      name: "Location",
+      selector: (row) => row.location as string,
+      sortable: true,
+    },
+    {
+      name: "Is Featured",
+      selector: (row) => (row.isFeatured ? "Yes" : "No"),
+      sortable: true,
+    },
+    {
+      name: "Updated At",
+      selector: (row) => row.updatedAt.toUTCString(),
       sortable: true,
     },
     {
@@ -59,7 +104,7 @@ export default function UserTable({ customer }: { customer: Prisma.UserGetPayloa
       sortable: false,
     },
   ];
-  function editUserData(data: Prisma.UserGetPayload<{}>) {
+  function editUserData(data: Prisma.ProductsGetPayload<{}>) {
     setUserData(data);
     setModal(true);
   }
@@ -67,7 +112,7 @@ export default function UserTable({ customer }: { customer: Prisma.UserGetPayloa
   const deteleUserData = async (id: string) => {
     if (!confirm("Anda yakin ingin menghapus user ini?")) return;
     const toastId = toast.loading("Loading...");
-    const result = await deleteUserById(id);
+    const result = await deleteProductById(id);
     if (!result.error) {
       toast.success(result.message, { id: toastId });
       router.refresh();
@@ -100,7 +145,7 @@ export default function UserTable({ customer }: { customer: Prisma.UserGetPayloa
           <input
             type="search"
             className="block border rounded-lg border-primary-green bg-white focus-within:ring-primary-green focus-within:ring-2 font-poppins w-full px-4 py-3 text-sm text-gray-900 outline-none border-none "
-            placeholder="Cari Admin"
+            placeholder="Cari Produk"
             value={searchInput}
             onChange={handleSearchInput}
             required

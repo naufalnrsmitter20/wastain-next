@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import DataTable, { TableColumn } from "react-data-table-component";
 import AddAdmin from "./AddAdmin";
 import Modal from "./Modal";
+import { deleteUserById } from "@/utils/actions/userServerActions";
 
 export default function AdminTable({ customer, product, order, admin }: { customer: Prisma.UserGetPayload<{}>[]; product: Prisma.ProductsGetPayload<{}>[]; order: Prisma.OrderGetPayload<{}>[]; admin: Prisma.UserGetPayload<{}>[] }) {
   const [modal, setModal] = useState(false);
@@ -66,11 +67,11 @@ export default function AdminTable({ customer, product, order, admin }: { custom
   const deteleUserData = async (id: string) => {
     if (!confirm("Anda yakin ingin menghapus user ini?")) return;
     const toastId = toast.loading("Loading...");
-    // const result = await deleteUserById(id);
-    // if (!result.error) {
-    //   toast.success(result.message, { id: toastId });
-    //   router.refresh();
-    // } else toast.error(result.message, { id: toastId });
+    const result = await deleteUserById(id);
+    if (!result.error) {
+      toast.success(result.message, { id: toastId });
+      router.refresh();
+    } else toast.error(result.message, { id: toastId });
   };
 
   useEffect(() => {

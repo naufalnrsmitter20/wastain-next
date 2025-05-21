@@ -1,14 +1,23 @@
 "use client";
 import { PrimaryButton, SecondaryButton } from "@/app/(user)/Components/utilities/Buttons";
-import { DropDown, InputFields, TextField } from "@/app/(user)/Components/utilities/InputField";
-import { updateUserById } from "@/utils/actions/userServerActions";
-import ModalProfile from "@/utils/ModalProfile";
-import { Prisma, Role } from "@prisma/client";
+import { DropDown, TextField } from "@/app/(user)/Components/utilities/InputField";
+import { updateProductById } from "@/utils/actions/userServerActions";
+import { Kategori, Prisma } from "@prisma/client";
+import Image from "next/image";
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispatch<SetStateAction<boolean>>; data?: Prisma.UserGetPayload<{}> }): React.JSX.Element {
+export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispatch<SetStateAction<boolean>>; data?: Prisma.ProductsGetPayload<{}> }): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
+  const [Images, setimage] = useState<File>();
+  const [namaBarang, setNamaBarang] = useState(data?.nama_barang || "");
+  const [slug, setSlug] = useState(data?.nama_barang?.replace(/\s+/g, "-").toLowerCase() || "");
+
+  const handleNamaBarangChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNamaBarang(value);
+    setSlug(value.replace(/\s+/g, "-").toLowerCase());
+  };
 
   const HandleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,10 +25,18 @@ export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispat
     try {
       const toastId = toast.loading("Loading...");
       const formData = new FormData(e.target);
-      await updateUserById(data?.id as string, formData);
-      toast.success("Sukses mengupdate siswa!", { id: toastId });
-      setIsLoading(false);
-      setIsOpenModal(false);
+      const image = formData.get("image") as File | undefined;
+      formData.append("image", image as File);
+      const dataset = await updateProductById(data?.id as string, formData);
+      if (dataset.error === false) {
+        toast.success("Sukses mengupdate product!", { id: toastId });
+        setIsLoading(false);
+        setIsOpenModal(false);
+      } else {
+        setIsLoading(false);
+        console.log(dataset);
+        toast.error("Gagal mengupdate product!", { id: toastId });
+      }
     } catch (error) {
       console.log(error as Error);
       toast.error((error as Error).message);
@@ -32,7 +49,7 @@ export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispat
       <div className="relative p-4 w-full max-w-4xl mt-10 mb-36 mx-auto max-h-full">
         <div className="relative bg-white rounded-lg shadow ">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-            <h3 className="text-xl font-semibold text-gray-900">Data Admin</h3>
+            <h3 className="text-xl font-semibold text-gray-900">Data Product</h3>
             <button onClick={() => setIsOpenModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center ">
               <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -42,19 +59,44 @@ export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispat
           </div>
           <div className="px-8">
             <form onSubmit={HandleSubmit}>
-              <TextField required type="text" label="Username" name="username" defaultValue={data?.username as string} placeholder="Nama Lengkap" />
-              <TextField required type="text" label="Email" name="email" defaultValue={data?.email as string} placeholder="Email" />
-              <TextField type="password" label="Password" name="password" disabled={data ? true : false} readOnly={data ? true : false} placeholder="Password" />
+              <TextField type="file" label="Image" name="image" handleChange={(e) => setimage(e.target.files![0])} placeholder="Image" />
+              <Image
+                src={Images ? URL.createObjectURL(Images) : data?.image || "https://res.cloudinary.com/dhjeoo1pm/image/upload/v1747842726/y253dmrpacbjbg3srisg.jpg"}
+                alt="photo_profile"
+                width={100}
+                height={100}
+                unoptimized
+                className="w-44 h-44 object-cover"
+              />
+              <TextField required type="text" label="Nama Barang" name="nama_barang" defaultValue={namaBarang} handleChange={handleNamaBarangChange} placeholder="Nama Lengkap" />
+              <TextField required type="text" label="Slug" name="slug" defaultValue={slug} placeholder="Slug" />
+              <TextField required type="number" label="Stok" name="stok" defaultValue={data?.stok} placeholder="Stok" />
+              <TextField required type="text" label="Deskripsi" name="deskripsi" defaultValue={data?.deskripsi} placeholder="Deskripsi" />
+              <TextField required type="text" label="Tipe" name="tipe" defaultValue={data?.tipe} placeholder="Tipe" />
               <DropDown
-                name="role"
-                defaultValue={data?.role}
-                label="Role"
-                options={Object.values([Role["Admin"]]).map((x) => ({
+                name="kategori"
+                defaultValue={data?.kategori}
+                label="Kategori"
+                options={Object.values(Kategori).map((x) => ({
                   label: x,
                   value: x,
                 }))}
                 required
               />
+              <DropDown
+                name="isFeatured"
+                defaultValue={data?.isFeatured ? "true" : "false"}
+                label="Is Featured"
+                options={Object.values(["true", "false"]).map((x) => ({
+                  label: x,
+                  value: x,
+                }))}
+                required
+              />
+              <TextField required type="text" label="Location" name="location" defaultValue={data?.location as string} placeholder="Location" />
+              <TextField required type="number" label="Harga" name="harga" defaultValue={data?.harga} placeholder="Harga" />
+              <TextField required type="number" label="Diskon" name="diskon" defaultValue={(data?.diskon as number) ?? 0} placeholder="Diskon" />
+              <TextField required type="number" label="Rating" name="rating" defaultValue={data?.rating} placeholder="Rating" />
               <div className="flex justify-end w-full gap-x-4 pb-4 mt-4">
                 <SecondaryButton className="w-full text-sm" type="button" onClick={() => setIsOpenModal(false)}>
                   Close

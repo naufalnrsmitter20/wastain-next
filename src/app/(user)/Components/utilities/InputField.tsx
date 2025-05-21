@@ -22,7 +22,7 @@ interface InputProps {
   handleChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | any>) => void;
   disabled?: boolean;
   readOnly?: boolean;
-  defaultValue?: string;
+  defaultValue?: string | number;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
 }
 interface TextFieldProps extends InputProps {
@@ -59,6 +59,7 @@ export function TextField({ required, placeholder, type, name, label, className,
         defaultValue={defaultValue}
         type={type}
         name={name}
+        accept="image/*"
         placeholder={placeholder}
         value={value}
         onChange={handleChange}

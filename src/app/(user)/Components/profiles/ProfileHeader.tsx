@@ -47,7 +47,7 @@ function ProfileHeader() {
           <h4 className="font-bold text-[24px] tracking-wide">Profile</h4>
           {user && (
             <div className="mt-10">
-              <p className="font-medium text-[16px] leading-loose">Nama : {user.username}</p>
+              <p className="font-medium text-[16px] leading-loose">Username : {user.username}</p>
               <p className="font-medium text-[16px] leading-loose">Alamat : {shippingAddress.alamat}</p>
               <p className="font-medium text-[16px] leading-loose">Email : {user.email}</p>
             </div>

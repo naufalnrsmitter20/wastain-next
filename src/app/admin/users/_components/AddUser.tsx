@@ -3,7 +3,7 @@ import { PrimaryButton } from "@/app/(user)/Components/utilities/Buttons";
 import React, { useState } from "react";
 import Modal from "./Modal";
 
-export default function AddAdmin() {
+export default function AddUser() {
   const [modal, setModal] = useState(false);
   return (
     <>
