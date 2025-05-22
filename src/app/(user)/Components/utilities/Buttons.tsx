@@ -18,7 +18,7 @@ export const PrimaryButton = ({ children, className, type, onClick, target }: IB
 export const SecondaryButton = ({ children, className, type, onClick, target }: IButton) => {
   return (
     <button
-      className={`text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px] ${className}`}
+      className={`text-[14px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px] ${className}`}
       onClick={onClick}
       type={type}
       formTarget={target}

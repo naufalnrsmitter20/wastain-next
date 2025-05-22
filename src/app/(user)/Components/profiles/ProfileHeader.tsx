@@ -8,6 +8,9 @@ import { useSession } from "next-auth/react";
 import { HiCheck } from "react-icons/hi";
 import useCartServices from "@/lib/hooks/useCartStore";
 import HistoriBelanja from "./HistoriBelanja";
+import { useRouter } from "next/navigation";
+
+
 
 interface IUser {
   username: string;
@@ -15,6 +18,8 @@ interface IUser {
 }
 
 function ProfileHeader() {
+  const router = useRouter();
+  const pathArray = typeof window !== "undefined" ? window.location.pathname.split("/") : [];
   const { shippingAddress } = useCartServices();
   const { data: session, status } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
@@ -55,7 +60,25 @@ function ProfileHeader() {
     <React.Fragment>
       <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-screen">
         <div className="flex justify-between w-full items-center mb-[40px]">
-          <p className="font-medium text-[18px]">Home / Akun Saya</p>
+          <div className="">
+            <nav className="flex" aria-label="Breadcrumb">
+              <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li className="inline-flex items-center">
+                  <a href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-green dark:text-gray-400 dark:hover:text-white text-[20px]">
+                    Home
+                  </a>
+                </li>
+                <li aria-current="page">
+                  <div className="flex items-center">
+                    <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400 text-[20px]">Halaman Profile</span>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+          </div>
           <div className="flex gap-1">
             <p className="font-medium text-[18px]">Selamat Datang</p>
             <p className="font-medium text-[20px] text-primary-green">{user?.username}</p>
@@ -68,15 +91,15 @@ function ProfileHeader() {
             </div>
             <div className="h-full gap-2 w-full">
               <div className="mb-3">
-                <p 
-                  onClick={() => setActiveTab("profile")} 
+                <p
+                  onClick={() => setActiveTab("profile")}
                   className={`cursor-pointer font-medium ${activeTab === "profile" ? "text-primary-green" : "text-gray-700"} hover:text-primary-green`}
                 >
                   Akun Saya
                 </p>
               </div>
               <div className="mb-3">
-                <p 
+                <p
                   onClick={() => setActiveTab("payment")}
                   className={`cursor-pointer font-medium ${activeTab === "payment" ? "text-primary-green" : "text-gray-700"} hover:text-primary-green`}
                 >
@@ -84,7 +107,7 @@ function ProfileHeader() {
                 </p>
               </div>
               <div>
-                <p 
+                <p
                   onClick={() => setActiveTab("history")}
                   className={`cursor-pointer font-medium ${activeTab === "history" ? "text-primary-green" : "text-gray-700"} hover:text-primary-green`}
                 >
@@ -144,30 +167,30 @@ function PaymentSettings() {
         <p className="font-semibold text-[30px] text-primary-green">Penyelesaian Pembayaran</p>
       </div>
       <div className="flex gap-5">
-      <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
-        <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
-        <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
-        <div className="flex justify-start items-center mt-2">
-          <Location />
-          <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+        <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
+          <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
+          <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
+          <div className="flex justify-start items-center mt-2">
+            <Location />
+            <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+          </div>
         </div>
-      </div>
-      <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
-        <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
-        <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
-        <div className="flex justify-start items-center mt-2">
-          <Location />
-          <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+        <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
+          <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
+          <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
+          <div className="flex justify-start items-center mt-2">
+            <Location />
+            <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+          </div>
         </div>
-      </div>
-      <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
-        <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
-        <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
-        <div className="flex justify-start items-center mt-2">
-          <Location />
-          <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+        <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
+          <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
+          <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
+          <div className="flex justify-start items-center mt-2">
+            <Location />
+            <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -180,7 +203,7 @@ function PurchaseHistory() {
       <div>
         <p className="font-semibold text-[30px] text-primary-green">Histori Belanja</p>
       </div>
-     <HistoriBelanja />
+      <HistoriBelanja />
     </div>
   );
 }
