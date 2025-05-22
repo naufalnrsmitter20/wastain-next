@@ -4,9 +4,10 @@ import { authOption } from "@/lib/AuthOption";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import prisma from "../prisma";
-import { Kategori, Role } from "@prisma/client";
+import { Kategori, Prisma, Role } from "@prisma/client";
 import { hash } from "bcrypt";
 import { UploadImageCloudinary } from "./uploadImage";
+import { cartStore, initialState } from "@/lib/hooks/useCartStore";
 
 export const updateUserById = async (id: string | null, data: FormData) => {
   try {
@@ -196,6 +197,121 @@ export const deleteProductById = async (id: string) => {
     console.error((e as Error).message);
     return {
       message: "Failed to Delete",
+      error: true,
+    };
+  }
+};
+
+export const deleteOrderById = async (id: string) => {
+  try {
+    const session = await getServerSession(authOption);
+    if (session?.user?.role !== "Admin") {
+      return { error: true, message: "Unauthorized" };
+    }
+    const del = await prisma.order.delete({
+      where: { id },
+    });
+    if (!del) throw new Error("Delete failed");
+    else {
+      revalidatePath("/admin/products");
+      return { message: "Success to Delete!", error: false };
+    }
+  } catch (e) {
+    console.error((e as Error).message);
+    return {
+      message: "Failed to Delete",
+      error: true,
+    };
+  }
+};
+
+export const AddtoCartAction = async (data: Prisma.OrderItemGetPayload<{}>[]) => {
+  try {
+    const session = await getServerSession(authOption);
+    if (!session) {
+      throw new Error("Session not found");
+    }
+
+    const cartAction = await prisma.orderItem.createMany({
+      data: data.map((item) => ({
+        diskon: item.diskon,
+        harga: item.harga,
+        qty: item.qty,
+        slug: item.slug,
+        nama_barang: item.nama_barang,
+        image: item.image,
+        kategori: item.kategori,
+        tipe: item.tipe,
+        location: item.location,
+      })),
+    });
+    if (!cartAction) throw new Error("Add to cart failed");
+    else {
+      return { message: "Success to Add to Cart!", error: false };
+    }
+  } catch (error) {
+    console.error((error as Error).message);
+    return {
+      message: "Failed to Add to Cart",
+      error: true,
+    };
+  }
+};
+
+export const CheckoutStepsAction = async (data: any) => {
+  try {
+    const session = await getServerSession(authOption);
+    if (!session) {
+      throw new Error("Session not found");
+    }
+    const { paymentMethod, shippingAddress, items, itemsPrice, taxPrice, shippingPrice, totalPrice } = data;
+    const checkoutAction = await prisma.order.create({
+      data: {
+        paymentMethod,
+        shippingAddress,
+        item: {
+          create: items.map((item: any) => ({
+            nama_barang: item.nama_barang,
+            qty: item.qty,
+            image: item.image,
+            slug: item.slug,
+            harga: item.harga,
+            kategori: item.kategori,
+            tipe: item.tipe,
+            location: item.location,
+            diskon: item.diskon,
+          })),
+        },
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+        user: {
+          connect: {
+            id: session?.user?.id.toString(),
+          },
+        },
+        deliveredAt: null,
+        isPaid: false,
+        isDelivered: false,
+        paidAt: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+    if (!checkoutAction) throw new Error("Checkout failed");
+    else {
+      cartStore.setState(initialState);
+      revalidatePath("/orders");
+      revalidatePath("/homepage");
+      revalidatePath("/checkout");
+      revalidatePath("/checkout/pembayaran");
+      return { message: "Success to Checkout!", error: false };
+    }
+  } catch (error) {
+    console.error((error as Error).message);
+    return {
+      message: "Failed to Checkout",
       error: true,
     };
   }

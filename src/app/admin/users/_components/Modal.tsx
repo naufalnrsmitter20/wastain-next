@@ -1,7 +1,7 @@
 "use client";
 import { PrimaryButton, SecondaryButton } from "@/app/(user)/Components/utilities/Buttons";
 import { DropDown, InputFields, TextField } from "@/app/(user)/Components/utilities/InputField";
-import { updateUserById } from "@/utils/actions/userServerActions";
+import { updateUserById } from "@/utils/actions/ServerActions";
 import { Prisma, Role } from "@prisma/client";
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";

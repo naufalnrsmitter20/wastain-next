@@ -2,6 +2,11 @@ import { create } from "zustand";
 import { round2 } from "../utils";
 import { persist } from "zustand/middleware";
 import { OrderItem, ShippingAddress } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOption } from "../AuthOption";
+import prisma from "@/utils/prisma";
+import { revalidate } from "@/services/ProductService";
+import { revalidatePath } from "next/cache";
 
 type Cart = {
   items: OrderItem[];
@@ -13,7 +18,7 @@ type Cart = {
   shippingAddress: ShippingAddress;
 };
 
-const initialState: Cart = {
+export const initialState: Cart = {
   items: [],
   itemsPrice: 0,
   taxPrice: 0,

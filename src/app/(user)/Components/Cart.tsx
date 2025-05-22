@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import AR from "@/../public/ArrowRight.png";
 import { InputFields } from "./utilities/InputField";
@@ -7,6 +7,8 @@ import { PrimaryButton } from "./utilities/Buttons";
 import { useRouter } from "next/navigation";
 import useCartServices from "@/lib/hooks/useCartStore";
 import Link from "next/link";
+import { AddtoCartAction } from "@/utils/actions/ServerActions";
+import toast from "react-hot-toast";
 
 export default function Cart() {
   const router = useRouter();
@@ -15,12 +17,26 @@ export default function Cart() {
   useEffect(() => {
     setMounted(true);
   }, []);
-  console.log(items);
+
+  // const HandleCheckout = async () => {
+  //   try {
+  //     const action = await AddtoCartAction(items);
+  //     if (!action.error) {
+  //       toast.success("Berhasil Checkout");
+  //       router.push("/checkout/alamat_pembelian");
+  //     } else {
+  //       toast.error(action.message);
+  //       console.error(action.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during checkout:", error);
+  //     throw new Error((error as Error).message);
+  //   }
+  // };
 
   if (!mounted) return <></>;
   return (
     <React.Fragment>
-
       <div className="mx-40 mt-[75px] h-screen pt-20">
         <div className="mb-[50px]">
           <h1 className="text-primary-green font-bold text-[64px]">Keranjang Belanja</h1>

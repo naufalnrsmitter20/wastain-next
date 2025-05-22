@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import DataTable, { TableColumn } from "react-data-table-component";
 import AddAdmin from "./AddAdmin";
 import Modal from "./Modal";
-import { deleteUserById } from "@/utils/actions/userServerActions";
+import { deleteUserById } from "@/utils/actions/ServerActions";
 
 export default function AdminTable({ customer, product, order, admin }: { customer: Prisma.UserGetPayload<{}>[]; product: Prisma.ProductsGetPayload<{}>[]; order: Prisma.OrderGetPayload<{}>[]; admin: Prisma.UserGetPayload<{}>[] }) {
   const [modal, setModal] = useState(false);

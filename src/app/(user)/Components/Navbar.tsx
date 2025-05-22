@@ -53,7 +53,7 @@ export default function Navbars() {
             <Image src={logo} width={160} alt="wastain logo" />
           </Navbar.Brand>
         </div>
-        <form className="md:flex items-center hidden md:max-w-xs lg:max-w-lg xl:max-w-3xl w-full">
+        <form className="md:flex items-center hidden md:max-w-xs lg:max-w-lg xl:max-w-xl w-full">
           <label htmlFor="simple-search" className="sr-only">
             Search
           </label>

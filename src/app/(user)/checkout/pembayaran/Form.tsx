@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import CheckoutSteps from "../../Components/utilities/CheckOutSteps";
 import { PrimaryButton, SecondaryButton } from "../../Components/utilities/Buttons";
+import { MetodePembayaran } from "@prisma/client";
 
 function Form() {
   const router = useRouter();
@@ -14,6 +15,12 @@ function Form() {
     savePaymentMethod(selectedPaymentMethod);
     router.push("/checkout/pesan");
   };
+  function formatLabel(text: string): string {
+    return text
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Kapital setiap kata
+      .join(" ");
+  }
 
   useEffect(() => {
     if (!shippingAddress.alamat) {
@@ -28,7 +35,7 @@ function Form() {
         <div className="space-y-4">
           <h1 className="text-xl font-bold mb-4">Metode Pembayaran</h1>
           <form onSubmit={handleSubmit}>
-            {["QRIS", "MidTrans", "COD (Bayar di tempat)"].map((payment) => (
+            {Object.values(MetodePembayaran).map((payment) => (
               <div key={payment}>
                 <label className="cursor-pointer">
                   <input
@@ -39,7 +46,7 @@ function Form() {
                     checked={selectedPaymentMethod === payment}
                     onChange={() => setSelectedPaymentMethod(payment)}
                   />
-                  <span className="ml-2 text-[16px] font-semibold">{payment}</span>
+                  <span className="ml-2 text-[16px] font-semibold">{formatLabel(payment)}</span>
                 </label>
               </div>
             ))}

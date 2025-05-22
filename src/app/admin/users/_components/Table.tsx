@@ -5,7 +5,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { deleteUserById } from "@/utils/actions/userServerActions";
+import { deleteUserById } from "@/utils/actions/ServerActions";
 import AddUser from "./AddUser";
 import Modal from "./Modal";
 

@@ -5,83 +5,63 @@ import { Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { deleteProductById, deleteUserById } from "@/utils/actions/ServerActions";
-import AddUser from "./AddProduct";
+import { deleteOrderById } from "@/utils/actions/ServerActions";
+import AddUser from "./AddOrder";
 import Modal from "./Modal";
-import Image from "next/image";
 
-export default function ProductTable({ product }: { product: Prisma.ProductsGetPayload<{}>[] }) {
+export default function OrderTable({ order }: { order: Prisma.OrderGetPayload<{ include: { item: true; user: true } }>[] }) {
   const [modal, setModal] = useState(false);
-  const [userData, setUserData] = useState<Prisma.ProductsGetPayload<{}> | null>(null);
+  const [OrderData, setOrderData] = useState<Prisma.OrderGetPayload<{ include: { item: true; user: true } }> | null>(null);
   const [loader, setLoader] = useState(true);
   const [searchInput, setSearchInput] = useState<string>("");
-  const [filteredStudent, setFilteredStudent] = useState<Prisma.ProductsGetPayload<{}>[]>(product);
+  const [filteredStudent, setFilteredStudent] = useState<Prisma.OrderGetPayload<{ include: { item: true; user: true } }>[]>(order);
   const router = useRouter();
 
   useEffect(() => {
     const filterProjects = () => {
-      const filteredByName = product.filter((x) => x.nama_barang.toLowerCase().includes(searchInput.toLowerCase()));
+      const filteredByName = order.filter((x) => x.user.username.toLowerCase().includes(searchInput.toLowerCase()));
       setFilteredStudent(filteredByName);
     };
     filterProjects();
-  }, [product, searchInput]);
+  }, [order, searchInput]);
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
-  const columns: TableColumn<Prisma.ProductsGetPayload<{}>>[] = [
+  const columns: TableColumn<Prisma.OrderGetPayload<{ include: { item: true; user: true } }>>[] = [
     {
-      name: "Image",
-      cell: (row) => (
-        <div className="w-16 h-16 my-2">
-          <Image width={64} height={64} src={row.image} alt={row.nama_barang} className="w-full h-full object-cover rounded-lg" />
-        </div>
-      ),
+      name: "Customer",
+      selector: (row) => row.user.username ?? "",
       sortable: true,
     },
     {
-      name: "Nama Barang",
-      selector: (row) => row.nama_barang,
+      name: "total Item",
+      selector: (row) => row.item.length ?? 0,
       sortable: true,
     },
     {
-      name: "Slug",
-      selector: (row) => row.slug,
+      name: "Total Price",
+      selector: (row) => row.itemsPrice ?? 0,
       sortable: true,
     },
     {
-      name: "Tipe",
-      selector: (row) => row.tipe,
+      name: "Is Delivered",
+      selector: (row) => (row.isDelivered ? "Yes" : "No"),
       sortable: true,
     },
     {
-      name: "Deskripsi",
-      selector: (row) => row.deskripsi,
+      name: "Delivered At",
+      selector: (row) => (row.deliveredAt ? row.deliveredAt?.toUTCString() : "Belum Dikirim"),
       sortable: true,
     },
     {
-      name: "Stok",
-      selector: (row) => row.stok,
+      name: "Is Paid",
+      selector: (row) => (row.isPaid ? "Sudah Dibayar" : "Belum dibayar"),
       sortable: true,
     },
     {
-      name: "Harga",
-      selector: (row) => row.harga,
-      sortable: true,
-    },
-    {
-      name: "Rating",
-      selector: (row) => row.rating,
-      sortable: true,
-    },
-    {
-      name: "Location",
-      selector: (row) => row.location as string,
-      sortable: true,
-    },
-    {
-      name: "Is Featured",
-      selector: (row) => (row.isFeatured ? "Yes" : "No"),
+      name: "Payment Method",
+      selector: (row) => row.paymentMethod ?? "",
       sortable: true,
     },
     {
@@ -93,10 +73,10 @@ export default function ProductTable({ product }: { product: Prisma.ProductsGetP
       name: "Action",
       cell: (row) => (
         <div className="flex gap-x-3">
-          <button title="Edit" onClick={() => editUserData(row)} className="p-2 bg-blue-500 text-white rounded-lg hover:scale-110 active:scale-105 duration-150">
+          <button title="Edit" onClick={() => editOrderData(row)} className="p-2 bg-blue-500 text-white rounded-lg hover:scale-110 active:scale-105 duration-150">
             <Pencil size={14} />
           </button>
-          <button title="Delete" onClick={() => deteleUserData(row.id)} className="p-2.5 bg-red-500 text-white rounded-md hover:scale-110 active:scale-105 duration-150">
+          <button title="Delete" onClick={() => deteleOrderData(row.id)} className="p-2.5 bg-red-500 text-white rounded-md hover:scale-110 active:scale-105 duration-150">
             <Trash2 size={14} />
           </button>
         </div>
@@ -104,15 +84,15 @@ export default function ProductTable({ product }: { product: Prisma.ProductsGetP
       sortable: false,
     },
   ];
-  function editUserData(data: Prisma.ProductsGetPayload<{}>) {
-    setUserData(data);
+  function editOrderData(data: Prisma.OrderGetPayload<{ include: { item: true; user: true } }>) {
+    setOrderData(data);
     setModal(true);
   }
 
-  const deteleUserData = async (id: string) => {
+  const deteleOrderData = async (id: string) => {
     if (!confirm("Anda yakin ingin menghapus user ini?")) return;
     const toastId = toast.loading("Loading...");
-    const result = await deleteProductById(id);
+    const result = await deleteOrderById(id);
     if (!result.error) {
       toast.success(result.message, { id: toastId });
       router.refresh();
@@ -145,7 +125,7 @@ export default function ProductTable({ product }: { product: Prisma.ProductsGetP
           <input
             type="search"
             className="block border rounded-lg border-primary-green bg-white focus-within:ring-primary-green focus-within:ring-2 font-poppins w-full px-4 py-3 text-sm text-gray-900 outline-none border-none "
-            placeholder="Cari Produk"
+            placeholder="Cari Customer"
             value={searchInput}
             onChange={handleSearchInput}
             required
@@ -158,15 +138,13 @@ export default function ProductTable({ product }: { product: Prisma.ProductsGetP
         </div>
       </div>
       <section className=" min-h-screen w-full bg-[#F6F6F6] p-4 outline outline-1 outline-slate-200">
-        <div className="flex justify-end items-center">
-          <AddUser />
-        </div>
+        <div className="flex justify-end items-center">{/* <AddUser /> */}</div>
 
         <div className="w-full border-b-2 border-gray-300 mt-4"></div>
         <div className="mx-auto mt-4">
           <DataTable pagination highlightOnHover data={filteredStudent} columns={columns} />
         </div>
-        {modal && <Modal setIsOpenModal={setModal} data={userData!} />}
+        {modal && <Modal setIsOpenModal={setModal} data={OrderData!} />}
       </section>
     </>
   );

@@ -7,42 +7,31 @@ import Image from "next/image";
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispatch<SetStateAction<boolean>>; data?: Prisma.ProductsGetPayload<{}> }): React.JSX.Element {
+export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispatch<SetStateAction<boolean>>; data?: Prisma.OrderGetPayload<{ include: { item: true; user: true } }> }): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
-  const [Images, setimage] = useState<File>();
-  const [namaBarang, setNamaBarang] = useState(data?.nama_barang || "");
-  const [slug, setSlug] = useState(data?.nama_barang?.replace(/\s+/g, "-").toLowerCase() || "");
 
-  const handleNamaBarangChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setNamaBarang(value);
-    setSlug(value.replace(/\s+/g, "-").toLowerCase());
-  };
-
-  const HandleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const toastId = toast.loading("Loading...");
-      const formData = new FormData(e.target);
-      const image = formData.get("image") as File | undefined;
-      formData.append("image", image as File);
-      const dataset = await updateProductById(data?.id as string, formData);
-      if (dataset.error === false) {
-        toast.success("Sukses mengupdate product!", { id: toastId });
-        setIsLoading(false);
-        setIsOpenModal(false);
-      } else {
-        setIsLoading(false);
-        console.log(dataset);
-        toast.error("Gagal mengupdate product!", { id: toastId });
-      }
-    } catch (error) {
-      console.log(error as Error);
-      toast.error((error as Error).message);
-      setIsLoading(false);
-    }
-  };
+  // const HandleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   try {
+  //     const toastId = toast.loading("Loading...");
+  //     const formData = new FormData(e.target);
+  //     const dataset = await updateProductById(data?.id as string, formData);
+  //     if (dataset.error === false) {
+  //       toast.success("Sukses mengupdate product!", { id: toastId });
+  //       setIsLoading(false);
+  //       setIsOpenModal(false);
+  //     } else {
+  //       setIsLoading(false);
+  //       console.log(dataset);
+  //       toast.error("Gagal mengupdate product!", { id: toastId });
+  //     }
+  //   } catch (error) {
+  //     console.log(error as Error);
+  //     toast.error((error as Error).message);
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <div className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/50 `}>
@@ -58,7 +47,7 @@ export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispat
             </button>
           </div>
           <div className="px-8">
-            <form onSubmit={HandleSubmit}>
+            {/* <form onSubmit={HandleSubmit}>
               <TextField type="file" label="Image" name="image" handleChange={(e) => setimage(e.target.files![0])} placeholder="Image" />
               <Image
                 src={Images ? URL.createObjectURL(Images) : data?.image || "https://res.cloudinary.com/dhjeoo1pm/image/upload/v1747842726/y253dmrpacbjbg3srisg.jpg"}
@@ -121,7 +110,7 @@ export default function Modal({ setIsOpenModal, data }: { setIsOpenModal: Dispat
                   )}
                 </PrimaryButton>
               </div>
-            </form>
+            </form> */}
           </div>
         </div>
       </div>

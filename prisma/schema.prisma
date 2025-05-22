@@ -32,38 +32,40 @@ model User {
 }
 
 model Order {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId          String          @db.ObjectId
-  user            User            @relation(fields: [userId], references: [id])
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String           @db.ObjectId
+  user            User             @relation(fields: [userId], references: [id])
   item            OrderItem[]
   shippingAddress ShippingAddress
-  paymentMethod   String
+  paymentMethod   MetodePembayaran
   paymentResult   PaymentResult?
   itemsPrice      Float
   shippingPrice   Float
   taxPrice        Float
   totalPrice      Float
-  isPaid          Boolean         @default(false)
-  isDelivered     Boolean         @default(false)
+  isPaid          Boolean          @default(false)
+  isDelivered     Boolean          @default(false)
   paidAt          DateTime?
   deliveredAt     DateTime?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   @@map("Order")
 }
 
-type OrderItem {
-  productsId  String @db.ObjectId
+model OrderItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   nama_barang String
-  slug        String
   qty         Int
   image       String
+  slug        String
   harga       Float
   kategori    String
   tipe        String
   location    String
   diskon      Float
+  Order       Order?   @relation(fields: [orderId], references: [id])
+  orderId     String?  @db.ObjectId
 }
 
 type ShippingAddress {
@@ -81,7 +83,7 @@ type PaymentResult {
 }
 
 model Products {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   nama_barang String
   slug        String
   kategori    Kategori
@@ -93,9 +95,9 @@ model Products {
   diskon      Float?
   deskripsi   String
   image       String
-  isFeatured  Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isFeatured  Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@map("Products")
 }
