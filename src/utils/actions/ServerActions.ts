@@ -255,6 +255,7 @@ export const CheckoutStepsAction = async (data: any) => {
     if (!session) {
       throw new Error("Session not found");
     }
+    console.log(session);
     const { paymentMethod, shippingAddress, items, itemsPrice, taxPrice, shippingPrice, totalPriceFix } = data;
     const checkoutAction = await prisma.order.create({
       data: {
@@ -312,6 +313,9 @@ export const CancelOrderAction = async (id: string) => {
   try {
     const delOrder = await prisma.order.delete({
       where: { id },
+    });
+    await prisma.orderItem.deleteMany({
+      where: { orderId: id },
     });
     if (!delOrder) throw new Error("Delete failed");
     else {
