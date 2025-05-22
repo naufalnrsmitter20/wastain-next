@@ -57,7 +57,7 @@ function ProfileHeader({ order }: { order: Prisma.OrderGetPayload<{ include: { i
 
   return (
     <React.Fragment>
-      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-screen">
+      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-auto">
         <div className="flex justify-between w-full items-center mb-[40px]">
           <div className="">
             <nav className="flex" aria-label="Breadcrumb">
