@@ -9,36 +9,14 @@ import { useRouter } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
 import userProfile from "@/public/navProfile.png";
 import useCartServices from "@/lib/hooks/useCartStore";
+import { Session } from "next-auth";
 
-interface IUser {
-  username: string;
-  email: string;
-}
-
-export default function Navbars() {
+export default function Navbars({ session }: { session: Session }) {
   const { items } = useCartServices();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const [user, setUser] = useState<IUser | null>(null);
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (session) {
-        try {
-          const res = await fetch("/api/auth/usersauth");
-          const data = await res.json();
-          const customer = data.user || [];
-          const logInUser = customer.find((user: any) => user.email === session.user?.email);
-          setUser(logInUser || null);
-        } catch (error) {
-          console.log("Error fetching user : ", error);
-        }
-      }
-    };
-    fetchUser();
-  }, [session]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -71,7 +49,7 @@ export default function Navbars() {
           </div>
           <button className="hidden" type="submit"></button>
         </form>
-        {status === "unauthenticated" ? (
+        {!session ? (
           <>
             <section className="hidden md:flex justify-between gap-x-4">
               <button onClick={() => router.push("/keranjang")} className="place-items-center flex">
@@ -159,17 +137,17 @@ export default function Navbars() {
                 {mounted && items.length !== 0 && <span className="ml-2 px-1.5 py-0.5 rounded-full bg-primary-green text-white">{items.reduce((a, c) => a + c.qty, 0)} </span>}
               </p>
             </button>
-            {user && <h5 className="mr-6 text-[16px] font-bold">{user.username}</h5>}
+            {session?.user && <h5 className="mr-6 text-[16px] font-bold">{session.user.name}</h5>}
             <Dropdown arrowIcon={false} inline label={<Image src={userProfile} alt="profile" width={40} />}>
-              {user && (
+              {session?.user && (
                 <Dropdown.Header>
-                  <span className="block text-sm">{user.username}</span>
-                  <span className="block truncate mt-2 text-sm font-medium">{user.email}</span>
+                  <span className="block text-sm">{session?.user.name}</span>
+                  <span className="block truncate mt-2 text-sm font-medium">{session?.user.email}</span>
                 </Dropdown.Header>
               )}
               <Dropdown.Divider />
-              <Dropdown.Item onClick={() => router.push("/profile")}>Profile</Dropdown.Item>
-              <Dropdown.Item onClick={() => signOut()}>Log Out</Dropdown.Item>
+              {session?.user?.role === "Admin" ? <Dropdown.Item onClick={() => router.push("/admin/dashboard")}>Dashboard</Dropdown.Item> : <Dropdown.Item onClick={() => router.push("/profile")}>Profile</Dropdown.Item>}
+              <Dropdown.Item onClick={() => signOut({ callbackUrl: "/login" })}>Log Out</Dropdown.Item>
             </Dropdown>
           </div>
         )}

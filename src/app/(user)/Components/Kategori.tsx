@@ -1,22 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Reuse from "@/../public/reuse.png";
 import Recycle from "@/../public/recycle.png";
 import ClothesItem from "./ClothesItem";
-import data from "@/lib/dataProduct/data";
 import Badge from "@/app/Icons/Badge";
 import { Prisma } from "@prisma/client";
 
 export default function Kategori({ data }: { data: Prisma.ProductsGetPayload<{}>[] }) {
   const [selected, setSelected] = useState("All");
+  const [mounted, setMounted] = useState(false);
   const handleCategory = (category: string) => {
     setSelected(category);
   };
   const filteredProducts = selected === "All" ? data : data.filter((product) => product.kategori === selected);
+  useEffect(() => setMounted(true), []);
 
+  if (!mounted) return null;
   return (
-    <React.Fragment>
+    <>
       <div className="mx-6 md:mx-16 lg:mx-24 xl:mx-40 mb-[48px]">
         <div className="bg-white shadow-md rounded-[10px] ">
           <div className="mx-[16px] pt-[16px]">
@@ -70,6 +72,6 @@ export default function Kategori({ data }: { data: Prisma.ProductsGetPayload<{}>
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }

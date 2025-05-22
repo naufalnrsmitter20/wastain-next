@@ -3,6 +3,7 @@ import ProfileHeader from "../Components/profiles/ProfileHeader";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/lib/AuthOption";
 import prisma from "@/utils/prisma";
+import { redirect } from "next/navigation";
 
 export default async function profilePage() {
   const session = await getServerSession(authOption);
@@ -15,6 +16,7 @@ export default async function profilePage() {
       user: true,
     },
   });
+  if (session?.user?.role === "Admin") return redirect("/admin");
   return (
     <>
       <ProfileHeader order={orderData} />

@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 
 export default async function BanyakDicari({ data }: { data: Prisma.ProductsGetPayload<{}>[] }) {
   return (
-    <React.Fragment>
+    <>
       <div className="mb-[48px] mx-6 md:mx-16 lg:mx-24 xl:mx-40">
         <div className="flex justify-between mb-[16px]">
           <h1 className="font-bold text-[24px]">Produk Terbaru dari Wastain</h1>
@@ -18,6 +18,6 @@ export default async function BanyakDicari({ data }: { data: Prisma.ProductsGetP
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { dataClothes } from "@/lib/dataProduct/dataType";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,10 +8,14 @@ import { useRouter } from "next/navigation";
 
 export default function DiscountItem({ product }: { product: dataClothes }) {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const discount = product.diskon ? product.harga * (product.diskon / 100) : 0;
   const harga = product.harga - discount;
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
   return (
-    <React.Fragment>
+    <>
       <div className="bg-white shadow-gray-1 rounded-lg shadow flex flex-col justify-between h-full">
         <Link href={`/product/${product.slug}`}>
           <Image src={product.image} width={240} height={240} className="object-cover w-full h-60 object-top rounded-lg" alt="kemeja hehe" />
@@ -34,6 +38,6 @@ export default function DiscountItem({ product }: { product: dataClothes }) {
           </SecondaryButton>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
