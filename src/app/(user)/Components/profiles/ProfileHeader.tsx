@@ -153,7 +153,7 @@ function PaymentSettings({ data }: { data: Prisma.OrderGetPayload<{ include: { i
       <div>
         <p className="font-semibold text-[30px] text-primary-green">Penyelesaian Pembayaran</p>
       </div>
-      <div className="flex gap-5">
+      <div className="space-y-5">
         {data.map((order, index) => (
           <div key={index} className="rounded-md shadow-sm items-start border max-w-full w-full p-3 mt-3">
             <p className="text-[16px] tracking-wide">
