@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import exampleImage from "@/public/exampleimghistoribelanja.png";
-import { Trash2, ShoppingCart } from 'lucide-react';
+import { Trash2, ShoppingCart } from "lucide-react";
 
 export default function HistoriBelanja() {
   return (
@@ -10,119 +10,7 @@ export default function HistoriBelanja() {
         <div className="gap-3 grid grid-cols-3">
           <div className="relative shadow-sm border rounded-lg bg-white w-72">
             <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-red-500 font-bold text-sm">Rp98.900</span>
-                <span className="line-through text-gray-400 text-sm">Rp200.000</span>
-              </div>
-              <hr className="my-3 border-t border-gray-200" />
-              <span className="text-gray-500 text-base">Recycle</span>
-            </div>
-          </div>
-          <div className="relative shadow-sm border rounded-lg bg-white w-72">
-            <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-red-500 font-bold text-sm">Rp98.900</span>
-                <span className="line-through text-gray-400 text-sm">Rp200.000</span>
-              </div>
-              <hr className="my-3 border-t border-gray-200" />
-              <span className="text-gray-500 text-base">Recycle</span>
-            </div>
-          </div>
-          <div className="relative shadow-sm border rounded-lg bg-white w-72">
-            <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-red-500 font-bold text-sm">Rp98.900</span>
-                <span className="line-through text-gray-400 text-sm">Rp200.000</span>
-              </div>
-              <hr className="my-3 border-t border-gray-200" />
-              <span className="text-gray-500 text-base">Recycle</span>
-            </div>
-          </div>
-          <div className="relative shadow-sm border rounded-lg bg-white w-72">
-            <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-red-500 font-bold text-sm">Rp98.900</span>
-                <span className="line-through text-gray-400 text-sm">Rp200.000</span>
-              </div>
-              <hr className="my-3 border-t border-gray-200" />
-              <span className="text-gray-500 text-base">Recycle</span>
-            </div>
-          </div>
-          <div className="relative shadow-sm border rounded-lg bg-white w-72">
-            <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-red-500 font-bold text-sm">Rp98.900</span>
-                <span className="line-through text-gray-400 text-sm">Rp200.000</span>
-              </div>
-              <hr className="my-3 border-t border-gray-200" />
-              <span className="text-gray-500 text-base">Recycle</span>
-            </div>
-          </div>
-          <div className="relative shadow-sm border rounded-lg bg-white w-72">
-            <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-red-500 font-bold text-sm">Rp98.900</span>
-                <span className="line-through text-gray-400 text-sm">Rp200.000</span>
-              </div>
-              <hr className="my-3 border-t border-gray-200" />
-              <span className="text-gray-500 text-base">Recycle</span>
-            </div>
-          </div>
-          <div className="relative shadow-sm border rounded-lg bg-white w-72">
-            <div className="flex justify-center items-center w-full h-40 overflow-hidden rounded-t-lg bg-gray-100">
-              <Image
-              src={exampleImage}
-              alt="Gucci duffle bag"
-              className="object-cover w-full h-full"
-              />
+              <Image src={exampleImage} alt="Gucci duffle bag" className="object-cover w-full h-full" />
             </div>
             <div className="p-4">
               <p className="text-lg font-semibold text-gray-800">Kemeja Formal</p>

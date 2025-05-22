@@ -264,7 +264,7 @@ export const CheckoutStepsAction = async (data: any) => {
     if (!session) {
       throw new Error("Session not found");
     }
-    const { paymentMethod, shippingAddress, items, itemsPrice, taxPrice, shippingPrice, totalPrice } = data;
+    const { paymentMethod, shippingAddress, items, itemsPrice, taxPrice, shippingPrice, totalPriceFix } = data;
     const checkoutAction = await prisma.order.create({
       data: {
         paymentMethod,
@@ -285,7 +285,7 @@ export const CheckoutStepsAction = async (data: any) => {
         itemsPrice,
         taxPrice,
         shippingPrice,
-        totalPrice,
+        totalPrice: totalPriceFix,
         user: {
           connect: {
             id: session?.user?.id.toString(),
@@ -312,6 +312,26 @@ export const CheckoutStepsAction = async (data: any) => {
     console.error((error as Error).message);
     return {
       message: "Failed to Checkout",
+      error: true,
+    };
+  }
+};
+
+export const CancelOrderAction = async (id: string) => {
+  try {
+    const delOrder = await prisma.order.delete({
+      where: { id },
+    });
+    if (!delOrder) throw new Error("Delete failed");
+    else {
+      revalidatePath("/orders");
+      revalidatePath("/profile");
+      return { message: "Success to Cancel Order!", error: false };
+    }
+  } catch (error) {
+    console.error((error as Error).message);
+    return {
+      message: "Failed to Cancel Order",
       error: true,
     };
   }

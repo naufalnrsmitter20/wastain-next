@@ -18,7 +18,7 @@ function Form() {
   function formatLabel(text: string): string {
     return text
       .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Kapital setiap kata
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   }
 
@@ -26,12 +26,12 @@ function Form() {
     if (!shippingAddress.alamat) {
       return router.push("/checkout/alamat_pembelian");
     }
-    setSelectedPaymentMethod(paymentMethod || "QRIS");
+    setSelectedPaymentMethod(paymentMethod || "tunai");
   }, [paymentMethod, router, shippingAddress.alamat]);
   return (
-    <div>
+    <>
       <CheckoutSteps current={2} />
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-4 my-4">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-4 my-4 min-h-screen">
         <div className="space-y-4">
           <h1 className="text-xl font-bold mb-4">Metode Pembayaran</h1>
           <form onSubmit={handleSubmit}>
@@ -45,6 +45,7 @@ function Form() {
                     value={payment}
                     checked={selectedPaymentMethod === payment}
                     onChange={() => setSelectedPaymentMethod(payment)}
+                    required
                   />
                   <span className="ml-2 text-[16px] font-semibold">{formatLabel(payment)}</span>
                 </label>
@@ -61,7 +62,7 @@ function Form() {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

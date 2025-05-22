@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import profileIcon from "@/public/user-logo-profile.png";
 import Image from "next/image";
-import { PrimaryButton } from "../utilities/Buttons";
+import { PrimaryButton, SecondaryButton } from "../utilities/Buttons";
 import Location from "@/app/Icons/Location";
 import { useSession } from "next-auth/react";
 import { HiCheck } from "react-icons/hi";
@@ -11,6 +11,8 @@ import HistoriBelanja from "./HistoriBelanja";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
+import { CancelOrderAction } from "@/utils/actions/ServerActions";
+import toast from "react-hot-toast";
 
 interface IUser {
   username: string;
@@ -18,8 +20,6 @@ interface IUser {
 }
 
 function ProfileHeader({ order }: { order: Prisma.OrderGetPayload<{ include: { item: true; user: true } }>[] }) {
-  const router = useRouter();
-  const pathArray = typeof window !== "undefined" ? window.location.pathname.split("/") : [];
   const { shippingAddress } = useCartServices();
   const { data: session, status } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
@@ -57,7 +57,7 @@ function ProfileHeader({ order }: { order: Prisma.OrderGetPayload<{ include: { i
 
   return (
     <React.Fragment>
-      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-auto">
+      <div className="flex justify-start min-h-screen gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-auto">
         <div className="flex justify-between w-full items-center mb-[40px]">
           <div className="">
             <nav className="flex" aria-label="Breadcrumb">
@@ -148,45 +148,88 @@ function AccountSettings({ user, shippingAddress }: AccountSettingsProps) {
 }
 
 function PaymentSettings({ data }: { data: Prisma.OrderGetPayload<{ include: { item: true; user: true } }>[] }) {
+  const router = useRouter();
+  const HandleCancelOrder = async (id: string) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const del = await CancelOrderAction(id);
+      if (del.error) {
+        console.log("Error canceling order", del.error);
+        toast.error(del.message, { id: toastId });
+      } else {
+        toast.success(del.message, { id: toastId });
+        router.refresh();
+      }
+    } catch (error) {
+      console.log("Error canceling order", error);
+    }
+  };
   return (
     <div>
       <div>
         <p className="font-semibold text-[30px] text-primary-green">Penyelesaian Pembayaran</p>
       </div>
-      <div className="space-y-5">
-        {data.map((order, index) => (
-          <div key={index} className="rounded-md shadow-sm items-start border max-w-full w-full p-3 mt-3">
-            <p className="text-[16px] tracking-wide">
-              <span className="font-bold">Order ID: </span> {order.id}
-            </p>
-            <p className="font-medium text-[16px] leading-loose">
-              <span className="font-bold">Metode Pembayaran:</span> {order.paymentMethod}
-            </p>
-            <p className="font-medium text-[16px] leading-loose">
-              <span className="font-bold">Total Harga:</span> Rp. {order.totalPrice.toLocaleString("id-ID")}
-            </p>
-            <div className="w-full h-[1px] bg-gray-300 my-2"></div>
-            <h6 className="font-bold mt-2 text-[20px]">List Item</h6>
-            <div className="space-y-4 relative block mt-2">
-              {order.item.map((item) => (
-                <div key={item.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <Image src={item.image} alt={item.nama_barang} width={100} height={100} className="rounded-md" />
-                    <div>
-                      <p className="text-[20px] font-semibold">{item.nama_barang}</p>
-                      <p className="text-[16px] font-medium">Tipe: {item.tipe}</p>
-                      <p className="text-[16px] font-medium">Lokasi: {item.location}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-[16px] font-semibold">Rp. {item.harga.toLocaleString("id-ID")}</p>
-                  </div>
-                </div>
-              ))}
+      {data.length === 0 ? (
+        <>
+          <div className="flex flex-col items-center justify-center h-[300px] gap-5">
+            <div className="bg-gray-50 justify-center items-center flex flex-col gap-5 p-7 rounded-lg">
+              <h2 className="text-xl font-bold text-gray-700">Anda tidak memiliki tagihan belanja!</h2>
+              <p className="text-gray-500">Silakan tambahkan produk ke keranjang belanja Anda.</p>
+              <SecondaryButton onClick={() => router.push("/")} type="submit" className="py-[10px] px-[10px]">
+                Kembali Halaman produk
+              </SecondaryButton>
             </div>
           </div>
-        ))}
-      </div>
+        </>
+      ) : (
+        <div className="space-y-5">
+          {data.map((order, index) => (
+            <div key={index} className="rounded-md shadow-sm border max-w-full w-full p-3 mt-3">
+              <p className="text-primary-green text-xl font-bold mb-4">Tagihan {index + 1}</p>
+              <p className="text-[16px] tracking-wide">
+                <span className="font-bold">Order ID: </span> {order.id}
+              </p>
+              <p className="font-medium text-[16px] leading-loose">
+                <span className="font-bold">Metode Pembayaran:</span> {order.paymentMethod}
+              </p>
+              <p className="font-medium text-[16px] leading-loose">
+                <span className="font-bold">Total Harga:</span> Rp. {order.totalPrice.toLocaleString("id-ID")}
+              </p>
+              <div className="w-full h-[1px] bg-gray-300 my-2"></div>
+              <h6 className="font-bold mt-2 text-[20px]">List Item</h6>
+              <div className="space-y-4 relative block mt-2">
+                {order.item.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <Image src={item.image} alt={item.nama_barang} width={100} height={100} className="rounded-md" />
+                      <div>
+                        <p className="text-[20px] font-semibold">{item.nama_barang}</p>
+                        <p className="text-[16px] font-medium">Tipe: {item.tipe}</p>
+                        <p className="text-[16px] font-medium">Lokasi: {item.location}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[16px] font-semibold">Rp. {item.harga.toLocaleString("id-ID")}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => {
+                  const confirmCancel = confirm("Apakah Anda yakin ingin membatalkan pesanan ini?");
+                  if (confirmCancel) {
+                    HandleCancelOrder(order.id);
+                  }
+                }}
+                className="bg-red-500 text-[16px] transition-all duration-200 hover:bg-red-600 text-white font-semibold py-[8px] px-6 rounded-[10px]"
+                type="button"
+              >
+                Batalkan Pesanan
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

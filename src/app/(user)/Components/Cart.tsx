@@ -43,9 +43,9 @@ export default function Cart() {
             <nav className="flex" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li className="inline-flex items-center">
-                  <a href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-green dark:text-gray-400 dark:hover:text-white text-[20px]">
+                  <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-green dark:text-gray-400 dark:hover:text-white text-[20px]">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li aria-current="page">
                   <div className="flex items-center">
@@ -62,13 +62,6 @@ export default function Cart() {
             <p className="font-semibold text-[30px] text-primary-green">Keranjang belanja</p>
           </div>
         </div>
-        {items.length > 0 && (
-          <p>
-            {/* <Link href={"/#products"} className="font-bold text-[16px] text-primary-black underline">
-              Kembali ke halaman produk
-            </Link> */}
-          </p>
-        )}
         <div className="bg-white *:w-full rounded-[10px] mb-[150px]">
           <div className="">
             {items.length === 0 ? (
@@ -202,7 +195,7 @@ export default function Cart() {
                         </div>
                       </div>
                       <PrimaryButton onClick={() => router.push("/checkout/alamat_pembelian")} type="submit" className="py-[15px] px-[50px]">
-                        Checkout
+                        Lanjut ke Proses
                       </PrimaryButton>
                     </div>
                   </div>

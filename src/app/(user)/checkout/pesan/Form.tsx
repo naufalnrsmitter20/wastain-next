@@ -37,6 +37,19 @@ function Form() {
   //   }
   // });
 
+  useEffect(() => {
+    if (!paymentMethod) {
+      return router.push("/checkout/pembayaran");
+    }
+    if (items.length === 0) {
+      return router.push("/homepage");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paymentMethod, router]);
+  const AfterDiscount = items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0);
+
+  const totalPriceFix = AfterDiscount + taxPrice;
+
   const handleCheckout = async () => {
     try {
       const res = await CheckoutStepsAction({
@@ -46,7 +59,7 @@ function Form() {
         itemsPrice,
         taxPrice,
         shippingPrice,
-        totalPrice,
+        totalPriceFix,
       });
 
       if (!res.error) {
@@ -60,20 +73,6 @@ function Form() {
       toast.error("Terjadi kesalahan saat checkout.");
     }
   };
-
-  useEffect(() => {
-    if (!paymentMethod) {
-      return router.push("/checkout/pembayaran");
-    }
-    if (items.length === 0) {
-      return router.push("/homepage");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentMethod, router]);
-  const AfterDiscount = items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0);
-
-  const totalFix = AfterDiscount + taxPrice;
-
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -200,10 +199,6 @@ function Form() {
               <li className="flex justify-between">
                 <div>Tax</div>
                 <p className="text-[16px] font-medium">Rp. {taxPrice.toLocaleString("id-ID")}</p>
-              </li>
-              <li className="flex justify-between">
-                <div>Bayar</div>
-                <p className="text-[16px] font-medium">Rp. {shippingPrice.toLocaleString("id-ID")}</p>
               </li>
               <li className="flex justify-between">
                 <div>Total</div>
