@@ -67,9 +67,6 @@ export const updateUserById = async (id: string | null, data: FormData) => {
 export const deleteUserById = async (id: string) => {
   try {
     const session = await getServerSession(authOption);
-    if (session?.user?.role !== "Admin") {
-      return { error: true, message: "Unauthorized" };
-    }
     const del = await prisma.user.delete({
       where: { id },
     });
@@ -182,9 +179,6 @@ export const updateProductById = async (id: string | null, data: FormData) => {
 export const deleteProductById = async (id: string) => {
   try {
     const session = await getServerSession(authOption);
-    if (session?.user?.role !== "Admin") {
-      return { error: true, message: "Unauthorized" };
-    }
     const del = await prisma.products.delete({
       where: { id },
     });
@@ -205,9 +199,6 @@ export const deleteProductById = async (id: string) => {
 export const deleteOrderById = async (id: string) => {
   try {
     const session = await getServerSession(authOption);
-    if (session?.user?.role !== "Admin") {
-      return { error: true, message: "Unauthorized" };
-    }
     const del = await prisma.order.delete({
       where: { id },
     });
