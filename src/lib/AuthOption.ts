@@ -15,7 +15,6 @@ declare module "next-auth" {
       password: string;
       name: string;
       role: string;
-      user_pic: string;
     };
   }
 }
@@ -80,7 +79,7 @@ export const authOption: AuthOptions = {
     async jwt({ token, account, user, trigger, session }: any) {
       if (user) {
         token.user = {
-          id: user._id,
+          id: user.id,
           email: user.email,
           name: user.name,
           isAdmin: user.isAdmin,

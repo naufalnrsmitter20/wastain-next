@@ -8,7 +8,7 @@ export default function AddUser() {
   return (
     <>
       <PrimaryButton className="text-sm px-4 py-2" type="button" onClick={() => setModal(true)}>
-        Add Admin
+        Add User
       </PrimaryButton>
       {modal && <Modal setIsOpenModal={setModal} />}
     </>

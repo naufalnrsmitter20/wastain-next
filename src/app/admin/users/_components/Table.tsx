@@ -100,7 +100,7 @@ export default function UserTable({ customer }: { customer: Prisma.UserGetPayloa
           <input
             type="search"
             className="block border rounded-lg border-primary-green bg-white focus-within:ring-primary-green focus-within:ring-2 font-poppins w-full px-4 py-3 text-sm text-gray-900 outline-none border-none "
-            placeholder="Cari Admin"
+            placeholder="Cari User"
             value={searchInput}
             onChange={handleSearchInput}
             required
