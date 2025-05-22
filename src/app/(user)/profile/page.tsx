@@ -7,7 +7,6 @@ export default function profilePage() {
   return (
     <>
       <ProfileHeader />
-      <HistoriBelanja />
     </>
   );
 }

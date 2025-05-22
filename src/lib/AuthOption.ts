@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import prisma from "@/utils/prisma";
+
 import { DefaultJWT } from "next-auth/jwt";
 
 declare module "next-auth" {
