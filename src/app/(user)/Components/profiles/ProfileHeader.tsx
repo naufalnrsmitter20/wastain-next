@@ -157,7 +157,7 @@ function PaymentSettings({ data }: { data: Prisma.OrderGetPayload<{ include: { i
         {data.map((order, index) => (
           <div key={index} className="rounded-md shadow-sm items-start border max-w-full w-full p-3 mt-3">
             <p className="text-[16px] tracking-wide">
-              <span className="font-bold">Shipping ID: </span> {order.id}
+              <span className="font-bold">Order ID: </span> {order.id}
             </p>
             <p className="font-medium text-[16px] leading-loose">
               <span className="font-bold">Metode Pembayaran:</span> {order.paymentMethod}
