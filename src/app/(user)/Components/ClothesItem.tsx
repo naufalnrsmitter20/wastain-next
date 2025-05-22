@@ -1,15 +1,19 @@
 "use client";
 import { dataClothes } from "@/lib/dataProduct/dataType";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "./utilities/Buttons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function ClothesItem({ product }: { product: dataClothes }) {
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const discount = product.diskon ? product.harga * (product.diskon / 100) : 0;
   const harga = product.harga - discount;
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
   return (
     <React.Fragment>
       <div className="bg-white shadow-gray-1 rounded-lg shadow flex flex-col justify-between h-full">

@@ -1,10 +1,13 @@
 import React from "react";
 import Login from "../Components/Login";
+import { getServerSession } from "next-auth";
+import { authOption } from "@/lib/AuthOption";
 
-export default function login() {
+export default async function login() {
+  const session = await getServerSession(authOption);
   return (
     <>
-      <Login />
+      <Login session={session!} />
     </>
   );
 }

@@ -8,8 +8,9 @@ import { PrimaryButton } from "../../Components/utilities/Buttons";
 import { Spinner } from "flowbite-react";
 import SpinnerProops from "../../Components/utilities/Spinner";
 import { ShippingAddress } from "@prisma/client";
+import { Session } from "next-auth";
 
-function Form() {
+function Form({ session }: { session: Session }) {
   const router = useRouter();
   const { saveShippingAddrress, shippingAddress } = useCartServices();
   const {

@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { PrimaryButton } from "./utilities/Buttons";
 import { InputFields } from "./utilities/InputField";
 import { signIn } from "next-auth/react";
+import { Session } from "next-auth";
 
-export default function Login() {
+export default function Login({ session }: { session: Session }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [userInfo, setUserInfo] = useState({
@@ -31,7 +32,7 @@ export default function Login() {
         redirect: false,
         email: user.email,
         password: user.password,
-        callbackUrl: "/",
+        callbackUrl: session.user?.role === "Admin" ? "/admin" : "/profile",
       });
       if (res?.status === 401) {
         console.log(res.error);

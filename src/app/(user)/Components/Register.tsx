@@ -93,7 +93,7 @@ export default function Register() {
             {error && <p className="text-sm text-red-600 font-medium text-center">{error}</p>}
             <button
               className="text-[16px] text-primary-green border transition-all duration-200 border-primary-green hover:bg-dark-green hover:text-white font-bold uppercase py-[13px] rounded-[10px]"
-              onClick={() => signIn("google", { callbackUrl: "/homepage", redirect: false })}
+              onClick={() => signIn("google", { callbackUrl: "/", redirect: false })}
               type="button"
             >
               Masuk Dengan Google

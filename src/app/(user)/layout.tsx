@@ -4,6 +4,8 @@ import "./../globals.css";
 import AuthenticationProviders from "@/lib/authenticationProviders";
 import Navbars from "./Components/Navbar";
 import Footer from "./Components/Footer";
+import { getServerSession } from "next-auth";
+import { authOption } from "@/lib/AuthOption";
 
 const inter = Work_Sans({ subsets: ["latin"] });
 
@@ -12,15 +14,16 @@ export const metadata: Metadata = {
   description: "Welcome to Wastain | Waste Sustainable",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOption);
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbars />
+        <Navbars session={session!} />
         {children}
         <Footer />
       </body>

@@ -3,45 +3,39 @@ import React, { useEffect, useState } from "react";
 import CheckoutSteps from "../../Components/utilities/CheckOutSteps";
 import { useRouter } from "next/navigation";
 import useCartServices from "@/lib/hooks/useCartStore";
-import useSWRMutation from "swr/mutation";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import Image from "next/image";
-import { Spinner } from "flowbite-react";
-import SpinnerProops from "../../Components/utilities/Spinner";
+import { CheckoutStepsAction } from "@/utils/actions/ServerActions";
 
 function Form() {
   const router = useRouter();
   const { paymentMethod, shippingAddress, items, itemsPrice, taxPrice, shippingPrice, totalPrice, clear } = useCartServices();
 
-  const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(`/api/orders/mine`, async (url) => {
-    const res = await fetch("/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        paymentMethod,
-        shippingAddress,
-        items,
-        itemsPrice,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-      }),
-    });
+  // const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(`/api/orders/mine`, async (url) => {
+  //   const res = await fetch("/api/orders", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       paymentMethod,
+  //       shippingAddress,
+  //       items,
+  //       itemsPrice,
+  //       taxPrice,
+  //       shippingPrice,
+  //       totalPrice,
+  //     }),
+  //   });
 
-    if (!res.ok) {
-      const errorData = await res.text();
-      console.error(errorData);
-      toast.error("Failed to place order: " + errorData);
-      throw new Error("Network response was not ok" + errorData);
-    }
-  });
-
-  const handleSubmits = () => {
-    toast.success("Pesanan Berhasil Dibuat");
-  };
+  //   if (!res.ok) {
+  //     const errorData = await res.text();
+  //     console.error(errorData);
+  //     toast.error("Failed to place order: " + errorData);
+  //     throw new Error("Network response was not ok" + errorData);
+  //   }
+  // });
 
   useEffect(() => {
     if (!paymentMethod) {
@@ -54,8 +48,31 @@ function Form() {
   }, [paymentMethod, router]);
   const AfterDiscount = items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0);
 
-  const totalFix = AfterDiscount + taxPrice;
+  const totalPriceFix = AfterDiscount + taxPrice;
 
+  const handleCheckout = async () => {
+    try {
+      const res = await CheckoutStepsAction({
+        paymentMethod,
+        shippingAddress,
+        items,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPriceFix,
+      });
+
+      if (!res.error) {
+        toast.success("Pesanan berhasil dibuat!");
+        clear();
+        router.push("/profile");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      toast.error("Terjadi kesalahan saat checkout.");
+    }
+  };
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -184,20 +201,12 @@ function Form() {
                 <p className="text-[16px] font-medium">Rp. {taxPrice.toLocaleString("id-ID")}</p>
               </li>
               <li className="flex justify-between">
-                <div>Bayar</div>
-                <p className="text-[16px] font-medium">Rp. {shippingPrice.toLocaleString("id-ID")}</p>
-              </li>
-              <li className="flex justify-between">
                 <div>Total</div>
                 <p className="text-[16px] font-medium">Rp. {(AfterDiscount + taxPrice).toLocaleString("id-ID")}</p>
               </li>
 
               <li>
-                <button
-                  type="button"
-                  onClick={() => alert("Pesanan Berhasil Dibuat")}
-                  className="w-full uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green"
-                >
+                <button onClick={handleCheckout} type="submit" className="w-full uppercase font-bold text-[12px] px-[18px] py-[8px] text-white border-white bg-primary-green border rounded-md transition-all duration-200 hover:bg-dark-green">
                   <span className="ml-3">Buat Pesanan</span>
                 </button>
               </li>

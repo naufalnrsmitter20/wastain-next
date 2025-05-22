@@ -1,12 +1,36 @@
 import { loginWithGoogle } from "@/services/LoginWithGoogle";
-import { NextAuthOptions } from "next-auth";
+import { AuthOptions, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
-export const authOption: NextAuthOptions = {
+import { DefaultJWT } from "next-auth/jwt";
+
+declare module "next-auth" {
+  interface Session {
+    user?: {
+      id: number;
+      email: string;
+      password: string;
+      name: string;
+      role: string;
+      user_pic: string;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+  }
+}
+
+export const authOption: AuthOptions = {
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
 
@@ -56,7 +80,7 @@ export const authOption: NextAuthOptions = {
     async jwt({ token, account, user, trigger, session }: any) {
       if (user) {
         token.user = {
-          _id: user._id,
+          id: user._id,
           email: user.email,
           name: user.name,
           isAdmin: user.isAdmin,
@@ -76,7 +100,7 @@ export const authOption: NextAuthOptions = {
         const result = await loginWithGoogle(data);
         if (result.status) {
           token.user = {
-            _id: result.data.id,
+            id: result.data.id,
             email: result.data.email,
             name: result.data.username,
             role: result.data.role,

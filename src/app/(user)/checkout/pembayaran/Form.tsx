@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import CheckoutSteps from "../../Components/utilities/CheckOutSteps";
 import { PrimaryButton, SecondaryButton } from "../../Components/utilities/Buttons";
+import { MetodePembayaran } from "@prisma/client";
 
 function Form() {
   const router = useRouter();
@@ -14,21 +15,27 @@ function Form() {
     savePaymentMethod(selectedPaymentMethod);
     router.push("/checkout/pesan");
   };
+  function formatLabel(text: string): string {
+    return text
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 
   useEffect(() => {
     if (!shippingAddress.alamat) {
       return router.push("/checkout/alamat_pembelian");
     }
-    setSelectedPaymentMethod(paymentMethod || "QRIS");
+    setSelectedPaymentMethod(paymentMethod || "tunai");
   }, [paymentMethod, router, shippingAddress.alamat]);
   return (
-    <div>
+    <>
       <CheckoutSteps current={2} />
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-4 my-4">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-4 my-4 min-h-screen">
         <div className="space-y-4">
           <h1 className="text-xl font-bold mb-4">Metode Pembayaran</h1>
           <form onSubmit={handleSubmit}>
-            {["QRIS", "MidTrans", "COD (Bayar di tempat)"].map((payment) => (
+            {Object.values(MetodePembayaran).map((payment) => (
               <div key={payment}>
                 <label className="cursor-pointer">
                   <input
@@ -38,8 +45,9 @@ function Form() {
                     value={payment}
                     checked={selectedPaymentMethod === payment}
                     onChange={() => setSelectedPaymentMethod(payment)}
+                    required
                   />
-                  <span className="ml-2 text-[16px] font-semibold">{payment}</span>
+                  <span className="ml-2 text-[16px] font-semibold">{formatLabel(payment)}</span>
                 </label>
               </div>
             ))}
@@ -54,7 +62,7 @@ function Form() {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
