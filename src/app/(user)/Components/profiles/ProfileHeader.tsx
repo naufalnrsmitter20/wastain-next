@@ -9,13 +9,15 @@ import { HiCheck } from "react-icons/hi";
 import useCartServices from "@/lib/hooks/useCartStore";
 import HistoriBelanja from "./HistoriBelanja";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Prisma } from "@prisma/client";
 
 interface IUser {
   username: string;
   email: string;
 }
 
-function ProfileHeader() {
+function ProfileHeader({ order }: { order: Prisma.OrderGetPayload<{ include: { item: true; user: true } }>[] }) {
   const router = useRouter();
   const pathArray = typeof window !== "undefined" ? window.location.pathname.split("/") : [];
   const { shippingAddress } = useCartServices();
@@ -40,13 +42,12 @@ function ProfileHeader() {
     }
   }, [session]);
 
-  // Fungsi untuk render konten berdasarkan tab yang aktif
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
         return <AccountSettings user={user} shippingAddress={shippingAddress} />;
       case "payment":
-        return <PaymentSettings />;
+        return <PaymentSettings data={order} />;
       case "history":
         return <PurchaseHistory />;
       default:
@@ -62,14 +63,14 @@ function ProfileHeader() {
             <nav className="flex" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li className="inline-flex items-center">
-                  <a href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-green dark:text-gray-400 dark:hover:text-white text-[20px]">
+                  <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-green dark:text-gray-400 dark:hover:text-white text-[20px]">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li aria-current="page">
                   <div className="flex items-center">
                     <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                     </svg>
                     <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400 text-[20px]">Halaman Profile</span>
                   </div>
@@ -146,38 +147,45 @@ function AccountSettings({ user, shippingAddress }: AccountSettingsProps) {
   );
 }
 
-// Komponen untuk tab Penyelesaian Pembayaran
-function PaymentSettings() {
+function PaymentSettings({ data }: { data: Prisma.OrderGetPayload<{ include: { item: true; user: true } }>[] }) {
   return (
     <div>
       <div>
         <p className="font-semibold text-[30px] text-primary-green">Penyelesaian Pembayaran</p>
       </div>
       <div className="flex gap-5">
-        <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
-          <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
-          <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
-          <div className="flex justify-start items-center mt-2">
-            <Location />
-            <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
+        {data.map((order, index) => (
+          <div key={index} className="rounded-md shadow-sm items-start border max-w-full w-full p-3 mt-3">
+            <p className="text-[16px] tracking-wide">
+              <span className="font-bold">Shipping ID: </span> {order.id}
+            </p>
+            <p className="font-medium text-[16px] leading-loose">
+              <span className="font-bold">Metode Pembayaran:</span> {order.paymentMethod}
+            </p>
+            <p className="font-medium text-[16px] leading-loose">
+              <span className="font-bold">Total Harga:</span> Rp. {order.totalPrice.toLocaleString("id-ID")}
+            </p>
+            <div className="w-full h-[1px] bg-gray-300 my-2"></div>
+            <h6 className="font-bold mt-2 text-[20px]">List Item</h6>
+            <div className="space-y-4 relative block mt-2">
+              {order.item.map((item) => (
+                <div key={item.id} className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <Image src={item.image} alt={item.nama_barang} width={100} height={100} className="rounded-md" />
+                    <div>
+                      <p className="text-[20px] font-semibold">{item.nama_barang}</p>
+                      <p className="text-[16px] font-medium">Tipe: {item.tipe}</p>
+                      <p className="text-[16px] font-medium">Lokasi: {item.location}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-[16px] font-semibold">Rp. {item.harga.toLocaleString("id-ID")}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
-          <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
-          <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
-          <div className="flex justify-start items-center mt-2">
-            <Location />
-            <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
-          </div>
-        </div>
-        <div className="rounded-md shadow-sm items-start border max-w-xs w-full p-3 mt-3">
-          <p className="font-bold text-[16px] tracking-wide">Kemeja Formal</p>
-          <p className="font-medium text-[16px] leading-loose">Total Harga : </p>
-          <div className="flex justify-start items-center mt-2">
-            <Location />
-            <p className="font-medium text-[16px] leading-loose">Kirim Ke Rumah</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
