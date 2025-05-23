@@ -197,7 +197,7 @@ function PaymentSettings({ data }: { data: Prisma.OrderGetPayload<{ include: { i
               </p>
               <div className="w-full h-[1px] bg-gray-300 my-2"></div>
               <h6 className="font-bold mt-2 text-[20px]">List Item</h6>
-              <div className="space-y-4 relative block mt-2">
+              <div className="space-y-4 relative block mt-2 mb-7 ">
                 {order.item.map((item) => (
                   <div key={item.id} className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
