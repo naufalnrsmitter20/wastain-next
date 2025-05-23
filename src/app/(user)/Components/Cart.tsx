@@ -37,7 +37,7 @@ export default function Cart() {
   if (!mounted) return <></>;
   return (
     <React.Fragment>
-      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-screen min-h-max">
+      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-screen min-h-max pb-32">
         <div className="flex justify-between w-full items-center mb-[40px]">
           <div className="">
             <nav className="flex" aria-label="Breadcrumb">

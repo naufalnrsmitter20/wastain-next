@@ -106,7 +106,7 @@ function ProfileHeader({ order }: { order: Prisma.OrderGetPayload<{ include: { i
               </div>
             </div>
           </div>
-          <div className="bg-white shadow w-full rounded-[10px] p-[40px]">{renderContent()}</div>
+          <div className="bg-white mb-32 w-full rounded-[10px] p-[40px]">{renderContent()}</div>
         </div>
       </div>
     </React.Fragment>
@@ -237,7 +237,7 @@ function PaymentSettings({ data }: { data: Prisma.OrderGetPayload<{ include: { i
 // Komponen untuk tab Histori Belanja
 function PurchaseHistory() {
   return (
-    <div>
+    <div className="mb-32">
       <div>
         <p className="font-semibold text-[30px] text-primary-green">Histori Belanja</p>
       </div>

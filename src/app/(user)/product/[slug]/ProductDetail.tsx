@@ -94,7 +94,7 @@ export default function ProductDetail({ data, params }: { data: Prisma.ProductsG
           {status === "unauthenticated" ? (
             <PrimaryButton type="button" onClick={handleConfirm} className="px-10 mt-6">
               Tambahkan Ke Keranjang
-            </PrimaryButton>
+            </PrimaryButton>  
           ) : (
             <>
               {product.stok !== 0 && (
