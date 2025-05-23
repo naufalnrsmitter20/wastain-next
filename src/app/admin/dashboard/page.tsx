@@ -18,9 +18,6 @@ export default async function admin() {
   });
   const product = await prisma.products.findMany();
   const order = await prisma.order.findMany();
-  const session = await getServerSession(authOption);
-  console.log(session);
-
   return (
     <>
       <AdminHeader />
