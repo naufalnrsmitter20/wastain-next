@@ -15,7 +15,6 @@ declare module "next-auth" {
       password: string;
       name: string;
       role: string;
-      user_pic: string;
     };
   }
 }
@@ -80,17 +79,18 @@ export const authOption: AuthOptions = {
     async jwt({ token, account, user, trigger, session }: any) {
       if (user) {
         token.user = {
-          id: user._id,
+          id: user.id,
           email: user.email,
           name: user.name,
-          isAdmin: user.isAdmin,
+          role: user.role,
         };
       }
       if (account?.provider === "credentials") {
-        token.username = user.username;
+        token.name = user.username;
         token.email = user.email;
-        token.role = user.role;
+        token.user.role = user.role;
       }
+
       if (account?.provider === "google") {
         const data = {
           username: user.name || user.email.split("@")[0],

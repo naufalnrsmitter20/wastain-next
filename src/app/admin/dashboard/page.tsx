@@ -2,6 +2,8 @@ import prisma from "@/utils/prisma";
 import React from "react";
 import AdminTable from "./_components/Table";
 import AdminHeader from "../_components/AdminHeader";
+import { getServerSession } from "next-auth";
+import { authOption } from "@/lib/AuthOption";
 
 export default async function admin() {
   const customer = await prisma.user.findMany({
