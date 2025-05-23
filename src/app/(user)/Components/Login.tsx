@@ -5,6 +5,7 @@ import { PrimaryButton } from "./utilities/Buttons";
 import { InputFields } from "./utilities/InputField";
 import { signIn } from "next-auth/react";
 import { Session } from "next-auth";
+import toast from "react-hot-toast";
 
 export default function Login({ session }: { session: Session }) {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function Login({ session }: { session: Session }) {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
+    const toastId = toast.loading("Loading...");
     const user = {
       email: e.target.email.value,
       password: e.target.password.value,
@@ -32,13 +33,15 @@ export default function Login({ session }: { session: Session }) {
         redirect: false,
         email: user.email,
         password: user.password,
-        callbackUrl: session.user?.role === "Admin" ? "/admin" : "/profile",
+        callbackUrl: "/profile",
       });
       if (res?.status === 401) {
         console.log(res.error);
+        toast.error(res.error, { id: toastId });
         setError(`${res.error}`);
       }
       if (res?.ok) {
+        toast.success("Login Berhasil", { id: toastId });
         [router.push("/profile")];
       }
     } catch (error) {
