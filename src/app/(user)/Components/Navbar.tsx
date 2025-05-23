@@ -25,7 +25,7 @@ export default function Navbars({ session }: { session: Session }) {
 
   return (
     <React.Fragment>
-      <Navbar fluid className="shadow-md lg:mt-[15px] w-full h-[75px] fixed top-0 z-50 bg-white" rounded={false}>
+      <Navbar fluid className="shadow-md w-full h-[75px] fixed top-0 z-50 bg-white" rounded={false}>
         <div className="lg:mx-8">
           <Navbar.Brand href="/">
             <Image src={logo} width={160} alt="wastain logo" />

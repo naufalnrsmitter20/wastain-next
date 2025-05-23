@@ -37,7 +37,7 @@ export default function Cart() {
   if (!mounted) return <></>;
   return (
     <React.Fragment>
-      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-screen min-h-max">
+      <div className="flex justify-start gap-x-28 mx-auto max-w-7xl mt-20 pt-20 flex-col h-screen min-h-max pb-32">
         <div className="flex justify-between w-full items-center mb-[40px]">
           <div className="">
             <nav className="flex" aria-label="Breadcrumb">
@@ -62,7 +62,7 @@ export default function Cart() {
             <p className="font-semibold text-[30px] text-primary-green">Keranjang belanja</p>
           </div>
         </div>
-        <div className="bg-white *:w-full rounded-[10px] mb-[150px]">
+        <div className="bg-white *:w-full rounded-[10px]">
           <div className="">
             {items.length === 0 ? (
               <>
@@ -78,7 +78,7 @@ export default function Cart() {
               </>
             ) : (
               <>
-                <div className="overflow-x-auto h-auto">
+                <div className="overflow-x-auto min-h-screen">
                   <table className="min-w-full text-sm text-left text-gray-500 border rounded-lg">
                     <thead className="text-xs text-gray-700 bg-gray-100 font-bold text-[16px] tracking-wide">
                       <tr>
@@ -179,7 +179,7 @@ export default function Cart() {
                         <div className="grid grid-cols-2 gap-x-4 items-center py-2">
                           <p className="text-[16px] font-medium">Diskon</p>
                           <p className="text-[16px] font-medium text-right">
-                            Rp.{" "}
+                             Rp.{" "}
                             {items
                               .reduce((total, item) => {
                                 const diskonPerItem = item.diskon ? item.qty * item.harga * (item.diskon / 100) : 0;
@@ -194,7 +194,7 @@ export default function Cart() {
                           <p className="font-medium text-[16px] text-right">Rp. {items.reduce((total, item) => total + item.qty * item.harga * (1 - (item.diskon ?? 0) / 100), 0).toLocaleString("id-ID")}</p>
                         </div>
                       </div>
-                      <PrimaryButton onClick={() => router.push("/checkout/alamat_pembelian")} type="submit" className="py-[15px] px-[50px]">
+                      <PrimaryButton onClick={() => router.push("/checkout/Pemesanan")} type="submit" className="py-[15px] px-[50px]">
                         Lanjut ke Proses
                       </PrimaryButton>
                     </div>

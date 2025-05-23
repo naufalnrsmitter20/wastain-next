@@ -34,13 +34,23 @@ export default function AddToCart({ item }: { item: OrderItem }) {
       >
         +
       </button>
-      <SecondaryButton type="button" onClick={() => router.push("/keranjang")} className="px-10 mt-6 block">
-        Lihat Keranjang
-      </SecondaryButton>
+      <div className="flex gap-2">
+        <SecondaryButton type="button" onClick={() => router.push("/keranjang")} className="px-10 mt-6 block">
+          Lihat Keranjang
+        </SecondaryButton>
+        <SecondaryButton type="button" onClick={() => router.push("/")} className="px-10 mt-6">
+          Kembali ke Beranda
+        </SecondaryButton>
+      </div>
     </div>
   ) : (
-    <PrimaryButton type="button" onClick={addToCartHandler} className="px-10 mt-6">
-      Tambahkan Ke Keranjang
-    </PrimaryButton>
+    <div className="flex gap-2">
+      <PrimaryButton type="button" onClick={addToCartHandler} className="px-10 mt-6">
+        Tambahkan Ke Keranjang
+      </PrimaryButton>
+      <SecondaryButton type="button" onClick={() => router.push("/")} className="px-10 mt-6">
+        Kembali ke Beranda
+      </SecondaryButton>
+    </div>
   );
 }
